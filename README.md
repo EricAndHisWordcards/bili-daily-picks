@@ -1,5 +1,9 @@
 # B站每日必看
 
+[![Release](https://img.shields.io/github/v/release/EricAndHisWordcards/bili-daily-picks?display_name=tag&sort=semver)](https://github.com/EricAndHisWordcards/bili-daily-picks/releases)
+![Chrome/Edge 120+](https://img.shields.io/badge/Chrome%2FEdge-120%2B-4285F4)
+![Manifest V3](https://img.shields.io/badge/Manifest-V3-5C6BC0)
+
 一个 Chrome / Edge 浏览器扩展：读取你自己的 B站历史记录，结合热门、排行榜、每周必看、
 个性化推荐与本地记录的增长数据，每天生成「每日必看」清单，并统计你的观看标签与每周变化。
 
@@ -13,24 +17,32 @@
 - 「周报」页每周一自动生成上一自然周的观看趋势、喜好标签与权重变化
 - 账号卡片显示当前登录状态，可一键打开 B站登录页并刷新；数据备份支持 JSON 导出/导入
 
-## 安装
+## 下载即用（普通用户）
 
-环境要求：Chrome / Edge 120 及以上；Node.js 20 及以上（仅重新构建时需要）。
+不用安装 Node.js：到 [Releases](https://github.com/EricAndHisWordcards/bili-daily-picks/releases) 下载最新的
+`bili-daily-picks-v0.2.2.zip`，解压后按下面的步骤加载解压出的文件夹。
+
+1. 打开 `chrome://extensions`（Edge 为 `edge://extensions`）
+2. 打开右上角「开发者模式」
+3. 点「加载已解压的扩展程序」，选择解压后的文件夹（里面应有 `manifest.json`）
+4. 首次安装会自动打开仪表盘；也可以在 B站页面右下角点悬浮按钮，或点击扩展图标打开
+
+> Release 包只包含构建产物（`dist/`），不含源码；源码请直接克隆仓库。
+
+## 从源码构建（开发者）
+
+环境要求：Chrome / Edge 120 及以上；Node.js 20 及以上。
 
 仓库不提交构建产物，首次使用需先构建 `dist/`；改完代码后也需重新构建：
 
 ```powershell
+git clone https://github.com/EricAndHisWordcards/bili-daily-picks.git
 cd bili-daily-picks
-npm install        # 首次构建需要
+npm install
 npm run build
 ```
 
-然后：
-
-1. 打开 `chrome://extensions`（Edge 为 `edge://extensions`）
-2. 打开右上角「开发者模式」
-3. 点「加载已解压的扩展程序」，选择本项目的 `dist` 文件夹
-4. 首次安装会自动打开仪表盘；也可以在 B站页面右下角点悬浮按钮，或点击扩展图标打开
+然后按上面的「加载已解压的扩展程序」步骤加载本项目的 `dist` 文件夹。
 
 > 依赖安装如果报 `EPERM`，通常是因为 npm 默认缓存目录不可写；请按「开发」一节
 > 把缓存指到项目目录内。
