@@ -1,0 +1,38 @@
+{
+  "name": "bili-daily-picks",
+  "version": "0.2.2",
+  "private": true,
+  "type": "module",
+  "description": "B站每日必看：基于历史记录、榜单与增长数据的每日视频推荐扩展",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build:ui": "node --import ./scripts/patch-exec.mjs node_modules/vite/bin/vite.js build",
+    "build:ext": "node scripts/build-ext.mjs",
+    "build": "npm run typecheck && npm run build:ui && npm run build:ext",
+    "dev": "node --import ./scripts/patch-exec.mjs node_modules/vite/bin/vite.js build --watch",
+    "test": "node --import ./scripts/patch-exec.mjs node_modules/vitest/vitest.mjs run",
+    "test:watch": "node --import ./scripts/patch-exec.mjs node_modules/vitest/vitest.mjs",
+    "e2e": "node tests/e2e/run-e2e.mjs",
+    "probe": "node --import ./scripts/patch-exec.mjs node_modules/vitest/vitest.mjs run --config vitest.integration.config.ts",
+    "pack": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/pack.ps1"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.3.5",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "esbuild": "^0.28.2",
+    "playwright-core": "^1.64.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  }
+}

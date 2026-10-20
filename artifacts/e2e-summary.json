@@ -1,0 +1,310 @@
+{
+  "at": "2026-10-20T18:54:32.393Z",
+  "only": "all",
+  "browser": ".tools\\chromium\\chrome-win\\chrome.exe",
+  "browserExecutable": ".tools\\chromium\\chrome-win\\chrome.exe",
+  "headless": false,
+  "profileRoot": null,
+  "profileBase": "artifacts\\.e2e-profiles",
+  "dist": "dist",
+  "results": [
+    {
+      "status": "pass",
+      "name": "dist 产物完整",
+      "detail": ""
+    },
+    {
+      "status": "pass",
+      "name": "打开 dashboard.html?mock=1",
+      "detail": "http://127.0.0.1:<port>/dashboard.html?mock=1"
+    },
+    {
+      "status": "pass",
+      "name": "dashboard 根容器渲染",
+      "detail": "data-testid=dashboard"
+    },
+    {
+      "status": "pass",
+      "name": "今日必看页与状态徽标渲染",
+      "detail": "data-testid=today + status-badge 可见"
+    },
+    {
+      "status": "pass",
+      "name": "今日必看视频卡数量 ≥6",
+      "detail": "视频卡=16"
+    },
+    {
+      "status": "pass",
+      "name": "增长角标渲染（growth-badge）",
+      "detail": "growth-badge=16"
+    },
+    {
+      "status": "pass",
+      "name": "分区精选页：板块数量与每板块视频卡 2–5",
+      "detail": "分区板块=5，每板块卡片=[3, 3, 3, 3, 3]"
+    },
+    {
+      "status": "pass",
+      "name": "补充截图：分区精选页 1440×900",
+      "detail": "artifacts/screenshots/dashboard-sections-1440x900.png"
+    },
+    {
+      "status": "pass",
+      "name": "我的标签页：标签数量 ≥15",
+      "detail": "标签数量=25"
+    },
+    {
+      "status": "pass",
+      "name": "补充截图：我的标签页 1440×900",
+      "detail": "artifacts/screenshots/dashboard-tags-1440x900.png"
+    },
+    {
+      "status": "pass",
+      "name": "标签页兴趣信号面板（收藏/关注/稍后再看）",
+      "detail": "signal-stat=3，favorite-up=10，followed-up=10，watchlater-tag=8"
+    },
+    {
+      "status": "pass",
+      "name": "补充截图：标签页信号面板 1440×900",
+      "detail": "artifacts/screenshots/dashboard-tags-signals-1440x900.png"
+    },
+    {
+      "status": "pass",
+      "name": "mock 收藏夹兼容模式（?mock=fallback=1）",
+      "detail": "兼容模式：前 3 个收藏夹"
+    },
+    {
+      "status": "pass",
+      "name": "设置页渲染",
+      "detail": "data-testid=settings 可见"
+    },
+    {
+      "status": "pass",
+      "name": "补充截图：设置页 1440×900",
+      "detail": "artifacts/screenshots/dashboard-settings-1440x900.png"
+    },
+    {
+      "status": "pass",
+      "name": "账号卡显示已登录（normal）",
+      "detail": "已登录，checkedAt=2026/10/21 02:48:56"
+    },
+    {
+      "status": "pass",
+      "name": "Hero 显示账号昵称",
+      "detail": "昵称=星海旅人"
+    },
+    {
+      "status": "pass",
+      "name": "账号卡「刷新登录状态」生效",
+      "detail": "checked-at 1792522136485 -> 1792522439206"
+    },
+    {
+      "status": "pass",
+      "name": "备份导出触发下载且 BackupFile schema 合法",
+      "detail": "bili-daily-picks-backup-20261021-0253.json，200968 字节"
+    },
+    {
+      "status": "pass",
+      "name": "备份导入：选择文件 → 二次确认 → 导入摘要",
+      "detail": "备份导入成功 历史记录 1 条 增长快照 0 条 推荐结果 1 天 周报 0 份 不感兴趣 1 条 画像 无"
+    },
+    {
+      "status": "pass",
+      "name": "导入后设置已回读（perSection/regionSections/updateHour/theme）",
+      "detail": "perSection=4，regionSections=4，updateHour=5，theme=浅色"
+    },
+    {
+      "status": "pass",
+      "name": "补充截图：设置页账号与备份面板 1440×900",
+      "detail": "artifacts/screenshots/dashboard-settings-backup-1440x900.png"
+    },
+    {
+      "status": "pass",
+      "name": "切回今日必看",
+      "detail": "已回到今日必看"
+    },
+    {
+      "status": "pass",
+      "name": "1440×900 截图",
+      "detail": "artifacts/screenshots/dashboard-1440x900.png"
+    },
+    {
+      "status": "pass",
+      "name": "1024×768 截图",
+      "detail": "artifacts/screenshots/dashboard-1024x768.png"
+    },
+    {
+      "status": "pass",
+      "name": "周报页渲染（概览/7 日趋势/标签/涨跌/分区/UP）",
+      "detail": "weekKey=2026-10-12，label=2026 年 10 月 12 日 – 10 月 18 日，统计=4，趋势=7，标签=12，上升=5，下降=5"
+    },
+    {
+      "status": "pass",
+      "name": "补充截图：周报页 1440×900",
+      "detail": "artifacts/screenshots/dashboard-weekly-1440x900.png"
+    },
+    {
+      "status": "pass",
+      "name": "周报周切换（select 第 2 项 → weekKey / label 变化）",
+      "detail": "2026-10-12 -> 2026-10-05；label「2026 年 10 月 12 日 – 10 月 18 日」->「2026 年 10 月 5 日 – 10 月 11 日」"
+    },
+    {
+      "status": "pass",
+      "name": "mock empty：周报显示空态",
+      "detail": "weekly-empty 可见，data-week-key 为空"
+    },
+    {
+      "status": "pass",
+      "name": "mock 未登录态（login-hint）",
+      "detail": "login-hint 可见"
+    },
+    {
+      "status": "pass",
+      "name": "mock loggedout：账号卡登录已失效 + Hero 刷新仍保持未登录",
+      "detail": "登录已失效，含上次登录"
+    },
+    {
+      "status": "pass",
+      "name": "mock 空态（empty-state）",
+      "detail": "empty-state 可见"
+    },
+    {
+      "status": "pass",
+      "name": "mock 错误态（error-state）",
+      "detail": "error-state 可见"
+    },
+    {
+      "status": "pass",
+      "name": "立即更新流程（run-now → run-progress → toast）",
+      "detail": "run-progress 出现后消失，toast 提示完成"
+    },
+    {
+      "status": "pass",
+      "name": "仪表盘无 JS console error",
+      "detail": "0 条（已忽略图片/网络加载失败）"
+    },
+    {
+      "status": "pass",
+      "name": "扩展 service worker 已启动",
+      "detail": "扩展 id=ngbobaopeddkammkiemakgdllkdkjhoa"
+    },
+    {
+      "status": "pass",
+      "name": "service worker 直连 api.bilibili.com（风控探测）",
+      "detail": "code=0，直连可用，无需 DNR"
+    },
+    {
+      "status": "pass",
+      "name": "打开扩展内仪表盘（无 mock，走后台消息）",
+      "detail": "chrome-extension://<extension-id>/dashboard.html"
+    },
+    {
+      "status": "pass",
+      "name": "后台消息路由 GET_* 全部可用",
+      "detail": "updateHour=4，status.stage=idle"
+    },
+    {
+      "status": "pass",
+      "name": "GET_DASHBOARD_DATA 含 account（未登录）",
+      "detail": "loggedIn=false，checkedAt=2026/10/21 02:54:20"
+    },
+    {
+      "status": "pass",
+      "name": "REFRESH_ACCOUNT 返回实况登录态",
+      "detail": "loggedIn=false"
+    },
+    {
+      "status": "pass",
+      "name": "GET_WEEKLY_REPORT 无报告时返回 report=null",
+      "detail": "report=null，reports=0 份"
+    },
+    {
+      "status": "pass",
+      "name": "EXPORT_BACKUP 返回合法备份 schema",
+      "detail": "filename=bili-daily-picks-backup-20261021-0254.json，bytes=438，appVersion=0.2.2"
+    },
+    {
+      "status": "pass",
+      "name": "IMPORT_BACKUP 小样本成功（summary 正确）",
+      "detail": "{\"history\":1,\"snapshots\":0,\"daily\":1,\"dismissed\":1,\"weekly\":0,\"hasProfile\":false,\"dropped\":0}"
+    },
+    {
+      "status": "pass",
+      "name": "导入后设置 / 拉黑 / 每日结果已回读",
+      "detail": "perSection=4 / updateHour=5 / tagWindow=30d / 拉黑与 daily 均已回读"
+    },
+    {
+      "status": "pass",
+      "name": "IMPORT_BACKUP 非法内容失败且不覆盖数据",
+      "detail": "错误信息示例：「不是本扩展导出的备份文件…」；数据保持导入样本"
+    },
+    {
+      "status": "pass",
+      "name": "导入后再导出包含导入数据（往返一致）",
+      "detail": "history=1，dismissed=1，daily=1"
+    },
+    {
+      "status": "pass",
+      "name": "SET_SETTINGS 生效并可回读",
+      "detail": "showFloatingButton false -> 回读 -> 恢复"
+    },
+    {
+      "status": "pass",
+      "name": "空闲时 tick 不产生额外请求（观察 GET_STATUS 约 2 秒）",
+      "detail": "running=false，stage=idle（controller 未提供 requestCount）"
+    },
+    {
+      "status": "pass",
+      "name": "后台闹钟已注册（每分钟 tick + 每日更新）",
+      "detail": "pipeline-tick(每 1 分钟) + daily-update(2026/10/21 05:00:00)"
+    },
+    {
+      "status": "pass",
+      "name": "扩展仪表盘截图",
+      "detail": "artifacts/screenshots/extension-dashboard-1440x900.png"
+    },
+    {
+      "status": "pass",
+      "name": "扩展仪表盘无 JS console error",
+      "detail": "0 条（已忽略图片/网络加载失败）"
+    },
+    {
+      "status": "pass",
+      "name": "清空数据会暂停自动更新并移除每日闹钟",
+      "detail": "autoUpdate=false，daily=null，status.stage=idle"
+    },
+    {
+      "status": "pass",
+      "name": "清空后导出备份为空（历史/拉黑/每日结果已清除）",
+      "detail": "history=0，dismissed=0，daily=0，profile=null，autoUpdate=false"
+    },
+    {
+      "status": "pass",
+      "name": "chrome.tabs.query(url) 可用（标签页中转所需）",
+      "detail": "匹配 0 个 B站标签页"
+    },
+    {
+      "status": "pass",
+      "name": "bilibili.com 悬浮入口 / 关闭记忆 / API_FETCH 安全校验",
+      "detail": "（真实页面）"
+    }
+  ],
+  "screenshots": [
+    "artifacts\\screenshots\\dashboard-sections-1440x900.png",
+    "artifacts\\screenshots\\dashboard-tags-1440x900.png",
+    "artifacts\\screenshots\\dashboard-tags-signals-1440x900.png",
+    "artifacts\\screenshots\\dashboard-settings-1440x900.png",
+    "artifacts\\screenshots\\dashboard-settings-backup-1440x900.png",
+    "artifacts\\screenshots\\dashboard-1440x900.png",
+    "artifacts\\screenshots\\dashboard-1024x768.png",
+    "artifacts\\screenshots\\dashboard-weekly-1440x900.png",
+    "artifacts\\screenshots\\extension-dashboard-1440x900.png",
+    "artifacts\\screenshots\\bilibili-floating-1440x900.png"
+  ],
+  "swDirectFetch": {
+    "ok": true,
+    "status": 200,
+    "code": 0,
+    "message": "OK"
+  }
+}

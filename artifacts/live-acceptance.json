@@ -1,0 +1,207 @@
+{
+  "checkedAt": "2026-10-20T17:01:29.998Z",
+  "first": {
+    "date": "2026-10-21",
+    "generatedAt": 1792512534876,
+    "mode": "public",
+    "meta": {
+      "candidates": 260,
+      "requests": 73,
+      "durationMs": 63633,
+      "sources": [
+        "popular",
+        "ranking",
+        "weekly"
+      ],
+      "degraded": "分区排行榜触发风控，已跳过"
+    },
+    "sections": [
+      {
+        "id": "today",
+        "title": "今日必看",
+        "kind": "global",
+        "count": 6,
+        "bvids": [
+          "BV1SknF6KE5g",
+          "BV1pGnn67EbB",
+          "BV1Vbnn6iEfG",
+          "BV1j5nj68E48",
+          "BV1MHJB63Emv",
+          "BV1Jonu6mEwN"
+        ]
+      },
+      {
+        "id": "region:游戏",
+        "title": "游戏精选",
+        "kind": "region",
+        "count": 3,
+        "bvids": [
+          "BV1YmnJ6eEKE",
+          "BV1nFJ66PE1K",
+          "BV1QmpE6aEA7"
+        ]
+      },
+      {
+        "id": "region:科技",
+        "title": "科技精选",
+        "kind": "region",
+        "count": 2,
+        "bvids": [
+          "BV1pGnn67EbB",
+          "BV1KiJk67EQ9"
+        ]
+      },
+      {
+        "id": "region:知识",
+        "title": "知识精选",
+        "kind": "region",
+        "count": 3,
+        "bvids": [
+          "BV1Lsnn6uEaH",
+          "BV1fZJ26mEiY",
+          "BV1Xdnc6jEbL"
+        ]
+      },
+      {
+        "id": "region:生活",
+        "title": "生活精选",
+        "kind": "region",
+        "count": 3,
+        "bvids": [
+          "BV11CJy6nEaC",
+          "BV16PnA6fEky",
+          "BV1VeHQ6tEaS"
+        ]
+      },
+      {
+        "id": "region:音乐",
+        "title": "音乐精选",
+        "kind": "region",
+        "count": 2,
+        "bvids": [
+          "BV1Ben76vEwK",
+          "BV18rn36iEBq"
+        ]
+      },
+      {
+        "id": "growth",
+        "title": "增长榜",
+        "kind": "growth",
+        "count": 6,
+        "bvids": [
+          "BV186Jq6uEFu",
+          "BV1Y2Je6BEDr",
+          "BV1G5po6zECY",
+          "BV1kMJv6pEPK",
+          "BV1T8J66CEEu",
+          "BV1WXJq6cE7Y"
+        ]
+      },
+      {
+        "id": "weekly",
+        "title": "每周必看精选",
+        "kind": "weekly",
+        "count": 6,
+        "bvids": [
+          "BV1Nap461E9p",
+          "BV1DRHU6LELy",
+          "BV1mopE6xEqv",
+          "BV1rxp86jEYH",
+          "BV1xTpG6iEbV",
+          "BV1Jjpg6QEkh"
+        ]
+      }
+    ],
+    "profile": {
+      "topRegions": [],
+      "topTags": []
+    }
+  },
+  "second": {
+    "date": "2026-10-21",
+    "generatedAt": 1792515686863,
+    "mode": "public",
+    "meta": {
+      "candidates": 257,
+      "requests": 22,
+      "durationMs": 8013,
+      "sources": [
+        "popular",
+        "ranking",
+        "weekly"
+      ],
+      "degraded": "分区排行榜触发风控，已跳过"
+    },
+    "sections": [
+      {
+        "id": "today",
+        "title": "今日必看",
+        "kind": "global",
+        "count": 6,
+        "bvids": [
+          "BV1MtnG6NEGF",
+          "BV1XJJ96oEXg",
+          "BV1bKnw6zEsV",
+          "BV1c3HL6qEyq",
+          "BV1WwJy6EEMg",
+          "BV1F7nF6WEmD"
+        ]
+      },
+      {
+        "id": "region:影视",
+        "title": "影视精选",
+        "kind": "region",
+        "count": 2,
+        "bvids": [
+          "BV1MtnG6NEGF",
+          "BV1c3HL6qEyq"
+        ]
+      },
+      {
+        "id": "region:生活",
+        "title": "生活精选",
+        "kind": "region",
+        "count": 3,
+        "bvids": [
+          "BV1XJJ96oEXg",
+          "BV1WwJy6EEMg",
+          "BV1Fspj66E66"
+        ]
+      },
+      {
+        "id": "growth",
+        "title": "增长榜",
+        "kind": "growth",
+        "count": 6,
+        "bvids": [
+          "BV1WkJk6VEqA",
+          "BV1s7JX6gELt",
+          "BV1hCnw65EaE",
+          "BV1omnG6nEUJ",
+          "BV1R8nF65Eme",
+          "BV1AJnP6BEsa"
+        ]
+      },
+      {
+        "id": "weekly",
+        "title": "每周必看精选",
+        "kind": "weekly",
+        "count": 6,
+        "bvids": [
+          "BV1Cgpd6pEBR",
+          "BV1uvpg6zEdw",
+          "BV1D9pu6qECf",
+          "BV1hxHR68E24",
+          "BV1ZZpg6XEh4",
+          "BV179p76zEZR"
+        ]
+      }
+    ],
+    "profile": {
+      "topRegions": [],
+      "topTags": []
+    }
+  },
+  "overlapBvids": [],
+  "regionCountOutOfRange": 0
+}

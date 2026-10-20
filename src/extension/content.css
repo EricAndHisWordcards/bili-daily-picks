@@ -1,0 +1,29 @@
+/*
+ * 内容脚本注入的样式单独放在 content.css，使用 Shadow DOM 隔离，避免污染 B站页面。
+ * content.ts 会在 Shadow DOM 内注入按钮本体的完整样式，这里只负责宿主元素：
+ * 固定在右下角、不受页面字体/行高影响、始终处于最上层。
+ */
+#bili-daily-picks-floating {
+  position: fixed;
+  right: 20px;
+  bottom: 112px;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  z-index: 2147483000;
+  line-height: normal;
+  font-size: 0;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  #bili-daily-picks-floating {
+    right: 12px;
+    bottom: 88px;
+    width: 48px;
+    height: 48px;
+  }
+}

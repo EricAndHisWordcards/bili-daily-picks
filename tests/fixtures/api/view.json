@@ -1,0 +1,1015 @@
+{
+  "code": 0,
+  "message": "OK",
+  "ttl": 1,
+  "data": {
+    "bvid": "BV1Xdnc6jEbL",
+    "aid": 117472338512456,
+    "videos": 1,
+    "tid": 201,
+    "tid_v2": 2155,
+    "tname": "",
+    "tname_v2": "",
+    "copyright": 3,
+    "pic": "http://i0.hdslb.com/bfs/archive/9b0a7932f4f35e3f17cc13b56219a91f2a4dfd5e.jpg",
+    "title": "中文已死：为什么我们越来越不敢好好说话？",
+    "pubdate": 1792486800,
+    "ctime": 1792485806,
+    "desc": "对安全社交的依赖，让“玩梗”成了一种时代刚需。我们越来越习惯用最热闹的流行语，来掩饰最真实的情绪失语——看似什么都表达了，却又好像什么都没说......\n参考文献\n[1] CLARK H H, WILKES-GIBBS D. Referring as a collaborative process[J]. Cognition, 1986, 22(1): 1-39.\n[2] WILKES-GIBBS D, CLARK H H. Coordinating beliefs in conversation[J]. Journal of Memory and Language, 1992, 31(2): 183-194.\n[3] 汪航, 葛平平. 现代汉语程度副词“很”的来源及演变[J]. 语言研究, 2024, 44(3): 38-50.\n[4] WANG J, TAYLOR C. The conventionalisation of mock politeness in Chinese and British online forums[J]. Journal of Pragmatics, 2018, 142.\n[5] THURLOW C. From Statistical Panic to Moral Panic: The Metadiscursive Construction and Popular Exaggeration of New Media Language in the Print Media[J]. Journal of Computer-Mediated Communication, 2006, 11(3): 667-701.\n[6] 璩鑫圭, 唐良炎编. 学制演变/中国近代教育史资料汇编[M/OL]. 上海教育出版社, 2007.\n[7] SUSAN BLACKMORE. 模因机器[M/OL]. 机械工业出版社, 2022.",
+    "desc_v2": [
+      {
+        "raw_text": "对安全社交的依赖，让“玩梗”成了一种时代刚需。我们越来越习惯用最热闹的流行语，来掩饰最真实的情绪失语——看似什么都表达了，却又好像什么都没说......\n参考文献\n[1] CLARK H H, WILKES-GIBBS D. Referring as a collaborative process[J]. Cognition, 1986, 22(1): 1-39.\n[2] WILKES-GIBBS D, CLARK H H. Coordinating beliefs in conversation[J]. Journal of Memory and Language, 1992, 31(2): 183-194.\n[3] 汪航, 葛平平. 现代汉语程度副词“很”的来源及演变[J]. 语言研究, 2024, 44(3): 38-50.\n[4] WANG J, TAYLOR C. The conventionalisation of mock politeness in Chinese and British online forums[J]. Journal of Pragmatics, 2018, 142.\n[5] THURLOW C. From Statistical Panic to Moral Panic: The Metadiscursive Construction and Popular Exaggeration of New Media Language in the Print Media[J]. Journal of Computer-Mediated Communication, 2006, 11(3): 667-701.\n[6] 璩鑫圭, 唐良炎编. 学制演变/中国近代教育史资料汇编[M/OL]. 上海教育出版社, 2007.\n[7] SUSAN BLACKMORE. 模因机器[M/OL]. 机械工业出版社, 2022.",
+        "type": 1,
+        "biz_id": 0
+      }
+    ],
+    "state": 0,
+    "duration": 427,
+    "rights": {
+      "bp": 0,
+      "elec": 0,
+      "download": 1,
+      "movie": 0,
+      "pay": 0,
+      "hd5": 0,
+      "no_reprint": 0,
+      "autoplay": 1,
+      "ugc_pay": 0,
+      "is_cooperation": 0,
+      "ugc_pay_preview": 0,
+      "no_background": 0,
+      "clean_mode": 0,
+      "is_stein_gate": 0,
+      "is_360": 0,
+      "no_share": 0,
+      "arc_pay": 0,
+      "free_watch": 0
+    },
+    "owner": {
+      "mid": 1208823126,
+      "name": "大圆镜科普",
+      "face": "https://i0.hdslb.com/bfs/face/9c34ee4b8041dd6f2139c52287c8d34a0a42f230.jpg"
+    },
+    "stat": {
+      "aid": 117472338512456,
+      "view": 522070,
+      "danmaku": 1584,
+      "reply": 2655,
+      "favorite": 11336,
+      "coin": 4145,
+      "share": 1490,
+      "now_rank": 0,
+      "his_rank": 0,
+      "like": 56092,
+      "dislike": 0,
+      "evaluation": "",
+      "vt": 0
+    },
+    "argue_info": {
+      "argue_msg": "含AI生成内容",
+      "argue_type": 0,
+      "argue_link": ""
+    },
+    "dynamic": "",
+    "cid": 42895607731,
+    "dimension": {
+      "width": 2160,
+      "height": 3840,
+      "rotate": 0
+    },
+    "season_id": 8823404,
+    "premiere": null,
+    "teenage_mode": 1,
+    "is_chargeable_season": false,
+    "is_story": true,
+    "is_upower_exclusive": false,
+    "is_upower_play": false,
+    "is_upower_preview": false,
+    "enable_vt": 0,
+    "vt_display": "",
+    "is_upower_exclusive_with_qa": false,
+    "is_hua_sheng": false,
+    "no_cache": false,
+    "pages": [
+      {
+        "cid": 42895607731,
+        "page": 1,
+        "from": "vupload",
+        "part": "中文已死：为什么我们越来越不敢好好说话？",
+        "duration": 427,
+        "vid": "",
+        "weblink": "",
+        "dimension": {
+          "width": 2160,
+          "height": 3840,
+          "rotate": 0
+        },
+        "first_frame": "http://i2.hdslb.com/bfs/storyff/_00000tzkcpekeyiar2mh1rdiedy4xrb_firsti.jpg",
+        "ctime": 1792485806
+      }
+    ],
+    "subtitle": {
+      "allow_submit": false,
+      "list": []
+    },
+    "label": {
+      "type": 1
+    },
+    "ugc_season": {
+      "id": 8823404,
+      "title": "社会心理学",
+      "cover": "https://archive.biliimg.com/bfs/archive/d53bac92d9e6284572289dda04f0ffa38563f1b9.jpg",
+      "mid": 1208823126,
+      "intro": "",
+      "sign_state": 0,
+      "attribute": 140,
+      "stat": {
+        "season_id": 8823404,
+        "view": 12719864,
+        "danmaku": 17423,
+        "reply": 38429,
+        "fav": 215506,
+        "coin": 65221,
+        "share": 34884,
+        "now_rank": 0,
+        "his_rank": 0,
+        "like": 979363,
+        "vt": 0,
+        "vv": 0
+      },
+      "ep_count": 8,
+      "season_type": 1,
+      "is_pay_season": false,
+      "enable_vt": 0,
+      "sections": [
+        {
+          "season_id": 8823404,
+          "id": 9836421,
+          "title": "正片",
+          "type": 1,
+          "episodes": [
+            {
+              "season_id": 8823404,
+              "section_id": 9836421,
+              "id": 228788938,
+              "aid": 117472338512456,
+              "cid": 42895607731,
+              "title": "中文已死：为什么我们越来越不敢好好说话？",
+              "attribute": 0,
+              "arc": {
+                "aid": 117472338512456,
+                "videos": 0,
+                "type_id": 0,
+                "type_name": "",
+                "copyright": 0,
+                "pic": "http://i0.hdslb.com/bfs/archive/9b0a7932f4f35e3f17cc13b56219a91f2a4dfd5e.jpg",
+                "title": "中文已死：为什么我们越来越不敢好好说话？",
+                "pubdate": 1792486800,
+                "ctime": 1792486800,
+                "desc": "",
+                "state": 0,
+                "duration": 427,
+                "rights": {
+                  "bp": 0,
+                  "elec": 0,
+                  "download": 0,
+                  "movie": 0,
+                  "pay": 0,
+                  "hd5": 0,
+                  "no_reprint": 0,
+                  "autoplay": 0,
+                  "ugc_pay": 0,
+                  "is_cooperation": 0,
+                  "ugc_pay_preview": 0,
+                  "arc_pay": 0,
+                  "free_watch": 0
+                },
+                "author": {
+                  "mid": 1208823126,
+                  "name": "大圆镜科普",
+                  "face": "https://i0.hdslb.com/bfs/face/9c34ee4b8041dd6f2139c52287c8d34a0a42f230.jpg"
+                },
+                "stat": {
+                  "aid": 117472338512456,
+                  "view": 522070,
+                  "danmaku": 1584,
+                  "reply": 2655,
+                  "fav": 11336,
+                  "coin": 4145,
+                  "share": 1490,
+                  "now_rank": 0,
+                  "his_rank": 0,
+                  "like": 56092,
+                  "dislike": 0,
+                  "evaluation": "",
+                  "argue_msg": "",
+                  "vt": 0,
+                  "vv": 522070
+                },
+                "dynamic": "",
+                "dimension": {
+                  "width": 0,
+                  "height": 0,
+                  "rotate": 0
+                },
+                "desc_v2": null,
+                "is_chargeable_season": false,
+                "is_blooper": false,
+                "enable_vt": 0,
+                "vt_display": "",
+                "type_id_v2": 0,
+                "type_name_v2": "",
+                "is_lesson_video": 0
+              },
+              "page": {
+                "cid": 42895607731,
+                "page": 1,
+                "from": "vupload",
+                "part": "中文已死：为什么我们越来越不敢好好说话？",
+                "duration": 427,
+                "vid": "",
+                "weblink": "",
+                "dimension": {
+                  "width": 2160,
+                  "height": 3840,
+                  "rotate": 0
+                }
+              },
+              "bvid": "BV1Xdnc6jEbL",
+              "pages": [
+                {
+                  "cid": 42895607731,
+                  "page": 1,
+                  "from": "vupload",
+                  "part": "中文已死：为什么我们越来越不敢好好说话？",
+                  "duration": 427,
+                  "vid": "",
+                  "weblink": "",
+                  "dimension": {
+                    "width": 2160,
+                    "height": 3840,
+                    "rotate": 0
+                  }
+                }
+              ]
+            },
+            {
+              "season_id": 8823404,
+              "section_id": 9836421,
+              "id": 224934638,
+              "aid": 117353438381842,
+              "cid": 42303948199,
+              "title": "吹哨的代价：为什么发现问题的人，最后先成了问题？",
+              "attribute": 0,
+              "arc": {
+                "aid": 117353438381842,
+                "videos": 0,
+                "type_id": 0,
+                "type_name": "",
+                "copyright": 0,
+                "pic": "http://i1.hdslb.com/bfs/archive/33f7ddb4f23818b7e08baaec98690040c8128de6.jpg",
+                "title": "吹哨的代价：为什么发现问题的人，最后先成了问题？",
+                "pubdate": 1790672400,
+                "ctime": 1790672400,
+                "desc": "",
+                "state": 0,
+                "duration": 476,
+                "rights": {
+                  "bp": 0,
+                  "elec": 0,
+                  "download": 0,
+                  "movie": 0,
+                  "pay": 0,
+                  "hd5": 0,
+                  "no_reprint": 0,
+                  "autoplay": 0,
+                  "ugc_pay": 0,
+                  "is_cooperation": 0,
+                  "ugc_pay_preview": 0,
+                  "arc_pay": 0,
+                  "free_watch": 0
+                },
+                "author": {
+                  "mid": 1208823126,
+                  "name": "大圆镜科普",
+                  "face": "https://i0.hdslb.com/bfs/face/9c34ee4b8041dd6f2139c52287c8d34a0a42f230.jpg"
+                },
+                "stat": {
+                  "aid": 117353438381842,
+                  "view": 1069018,
+                  "danmaku": 2423,
+                  "reply": 3553,
+                  "fav": 26142,
+                  "coin": 8422,
+                  "share": 2610,
+                  "now_rank": 0,
+                  "his_rank": 59,
+                  "like": 102687,
+                  "dislike": 0,
+                  "evaluation": "",
+                  "argue_msg": "",
+                  "vt": 0,
+                  "vv": 1069018
+                },
+                "dynamic": "",
+                "dimension": {
+                  "width": 0,
+                  "height": 0,
+                  "rotate": 0
+                },
+                "desc_v2": null,
+                "is_chargeable_season": false,
+                "is_blooper": false,
+                "enable_vt": 0,
+                "vt_display": "",
+                "type_id_v2": 0,
+                "type_name_v2": "",
+                "is_lesson_video": 0
+              },
+              "page": {
+                "cid": 42303948199,
+                "page": 1,
+                "from": "vupload",
+                "part": "吹哨的代价：为什么发现问题的人，最后先成了问题？",
+                "duration": 476,
+                "vid": "",
+                "weblink": "",
+                "dimension": {
+                  "width": 2160,
+                  "height": 3840,
+                  "rotate": 0
+                }
+              },
+              "bvid": "BV1LiaJ6AEhx",
+              "pages": [
+                {
+                  "cid": 42303948199,
+                  "page": 1,
+                  "from": "vupload",
+                  "part": "吹哨的代价：为什么发现问题的人，最后先成了问题？",
+                  "duration": 476,
+                  "vid": "",
+                  "weblink": "",
+                  "dimension": {
+                    "width": 2160,
+                    "height": 3840,
+                    "rotate": 0
+                  }
+                }
+              ]
+            },
+            {
+              "season_id": 8823404,
+              "section_id": 9836421,
+              "id": 223686408,
+              "aid": 117314062125145,
+              "cid": 42108980981,
+              "title": "谣言：一件没发生的事，怎样变得众所周知？",
+              "attribute": 0,
+              "arc": {
+                "aid": 117314062125145,
+                "videos": 0,
+                "type_id": 0,
+                "type_name": "",
+                "copyright": 0,
+                "pic": "http://i0.hdslb.com/bfs/archive/e956e0192ac443e959c8ab0ddc8848840afa3fba.jpg",
+                "title": "谣言：一件没发生的事，怎样变得众所周知？",
+                "pubdate": 1790070758,
+                "ctime": 1790070758,
+                "desc": "",
+                "state": 0,
+                "duration": 482,
+                "rights": {
+                  "bp": 0,
+                  "elec": 0,
+                  "download": 0,
+                  "movie": 0,
+                  "pay": 0,
+                  "hd5": 0,
+                  "no_reprint": 0,
+                  "autoplay": 0,
+                  "ugc_pay": 0,
+                  "is_cooperation": 0,
+                  "ugc_pay_preview": 0,
+                  "arc_pay": 0,
+                  "free_watch": 0
+                },
+                "author": {
+                  "mid": 1208823126,
+                  "name": "大圆镜科普",
+                  "face": "https://i0.hdslb.com/bfs/face/9c34ee4b8041dd6f2139c52287c8d34a0a42f230.jpg"
+                },
+                "stat": {
+                  "aid": 117314062125145,
+                  "view": 620475,
+                  "danmaku": 1580,
+                  "reply": 2355,
+                  "fav": 12019,
+                  "coin": 3946,
+                  "share": 1226,
+                  "now_rank": 0,
+                  "his_rank": 0,
+                  "like": 63576,
+                  "dislike": 0,
+                  "evaluation": "",
+                  "argue_msg": "",
+                  "vt": 0,
+                  "vv": 620475
+                },
+                "dynamic": "",
+                "dimension": {
+                  "width": 0,
+                  "height": 0,
+                  "rotate": 0
+                },
+                "desc_v2": null,
+                "is_chargeable_season": false,
+                "is_blooper": false,
+                "enable_vt": 0,
+                "vt_display": "",
+                "type_id_v2": 0,
+                "type_name_v2": "",
+                "is_lesson_video": 0
+              },
+              "page": {
+                "cid": 42108980981,
+                "page": 1,
+                "from": "vupload",
+                "part": "谣言：一件没发生的事，怎样变得众所周知？",
+                "duration": 482,
+                "vid": "",
+                "weblink": "",
+                "dimension": {
+                  "width": 2160,
+                  "height": 3840,
+                  "rotate": 0
+                }
+              },
+              "bvid": "BV1eUhJ6FESm",
+              "pages": [
+                {
+                  "cid": 42108980981,
+                  "page": 1,
+                  "from": "vupload",
+                  "part": "谣言：一件没发生的事，怎样变得众所周知？",
+                  "duration": 482,
+                  "vid": "",
+                  "weblink": "",
+                  "dimension": {
+                    "width": 2160,
+                    "height": 3840,
+                    "rotate": 0
+                  }
+                }
+              ]
+            },
+            {
+              "season_id": 8823404,
+              "section_id": 9836421,
+              "id": 220815530,
+              "aid": 117221099572815,
+              "cid": 41622768197,
+              "title": "孤独：为什么越需要别人，我们反而越远离别人？",
+              "attribute": 0,
+              "arc": {
+                "aid": 117221099572815,
+                "videos": 0,
+                "type_id": 0,
+                "type_name": "",
+                "copyright": 0,
+                "pic": "http://i1.hdslb.com/bfs/archive/395c067bb6de7ffd1a192cee5006d42badf1fcd4.jpg",
+                "title": "孤独：为什么越需要别人，我们反而越远离别人？",
+                "pubdate": 1788652500,
+                "ctime": 1788652500,
+                "desc": "",
+                "state": 0,
+                "duration": 465,
+                "rights": {
+                  "bp": 0,
+                  "elec": 0,
+                  "download": 0,
+                  "movie": 0,
+                  "pay": 0,
+                  "hd5": 0,
+                  "no_reprint": 0,
+                  "autoplay": 0,
+                  "ugc_pay": 0,
+                  "is_cooperation": 0,
+                  "ugc_pay_preview": 0,
+                  "arc_pay": 0,
+                  "free_watch": 0
+                },
+                "author": {
+                  "mid": 1208823126,
+                  "name": "大圆镜科普",
+                  "face": "https://i0.hdslb.com/bfs/face/9c34ee4b8041dd6f2139c52287c8d34a0a42f230.jpg"
+                },
+                "stat": {
+                  "aid": 117221099572815,
+                  "view": 1049339,
+                  "danmaku": 2151,
+                  "reply": 4918,
+                  "fav": 30965,
+                  "coin": 10274,
+                  "share": 6730,
+                  "now_rank": 0,
+                  "his_rank": 34,
+                  "like": 109593,
+                  "dislike": 0,
+                  "evaluation": "",
+                  "argue_msg": "",
+                  "vt": 0,
+                  "vv": 1049339
+                },
+                "dynamic": "",
+                "dimension": {
+                  "width": 0,
+                  "height": 0,
+                  "rotate": 0
+                },
+                "desc_v2": null,
+                "is_chargeable_season": false,
+                "is_blooper": false,
+                "enable_vt": 0,
+                "vt_display": "",
+                "type_id_v2": 0,
+                "type_name_v2": "",
+                "is_lesson_video": 0
+              },
+              "page": {
+                "cid": 41622768197,
+                "page": 1,
+                "from": "vupload",
+                "part": "孤独：为什么越需要别人，我们反而越远离别人？",
+                "duration": 465,
+                "vid": "",
+                "weblink": "",
+                "dimension": {
+                  "width": 2160,
+                  "height": 3840,
+                  "rotate": 0
+                }
+              },
+              "bvid": "BV1gZbE67EYP",
+              "pages": [
+                {
+                  "cid": 41622768197,
+                  "page": 1,
+                  "from": "vupload",
+                  "part": "孤独：为什么越需要别人，我们反而越远离别人？",
+                  "duration": 465,
+                  "vid": "",
+                  "weblink": "",
+                  "dimension": {
+                    "width": 2160,
+                    "height": 3840,
+                    "rotate": 0
+                  }
+                }
+              ]
+            },
+            {
+              "season_id": 8823404,
+              "section_id": 9836421,
+              "id": 218466394,
+              "aid": 117149645474787,
+              "cid": 41217953286,
+              "title": "理想型：你真的知道自己会喜欢谁吗？",
+              "attribute": 0,
+              "arc": {
+                "aid": 117149645474787,
+                "videos": 0,
+                "type_id": 0,
+                "type_name": "",
+                "copyright": 0,
+                "pic": "http://i2.hdslb.com/bfs/archive/b5a9b2255906be80a43f8c7b766fce5fb4fb344b.jpg",
+                "title": "理想型：你真的知道自己会喜欢谁吗？",
+                "pubdate": 1787562033,
+                "ctime": 1787562033,
+                "desc": "",
+                "state": 0,
+                "duration": 456,
+                "rights": {
+                  "bp": 0,
+                  "elec": 0,
+                  "download": 0,
+                  "movie": 0,
+                  "pay": 0,
+                  "hd5": 0,
+                  "no_reprint": 0,
+                  "autoplay": 0,
+                  "ugc_pay": 0,
+                  "is_cooperation": 0,
+                  "ugc_pay_preview": 0,
+                  "arc_pay": 0,
+                  "free_watch": 0
+                },
+                "author": {
+                  "mid": 1208823126,
+                  "name": "大圆镜科普",
+                  "face": "https://i0.hdslb.com/bfs/face/9c34ee4b8041dd6f2139c52287c8d34a0a42f230.jpg"
+                },
+                "stat": {
+                  "aid": 117149645474787,
+                  "view": 1681941,
+                  "danmaku": 2284,
+                  "reply": 4674,
+                  "fav": 24262,
+                  "coin": 7767,
+                  "share": 7991,
+                  "now_rank": 0,
+                  "his_rank": 0,
+                  "like": 126990,
+                  "dislike": 0,
+                  "evaluation": "",
+                  "argue_msg": "",
+                  "vt": 0,
+                  "vv": 1681941
+                },
+                "dynamic": "",
+                "dimension": {
+                  "width": 0,
+                  "height": 0,
+                  "rotate": 0
+                },
+                "desc_v2": null,
+                "is_chargeable_season": false,
+                "is_blooper": false,
+                "enable_vt": 0,
+                "vt_display": "",
+                "type_id_v2": 0,
+                "type_name_v2": "",
+                "is_lesson_video": 0
+              },
+              "page": {
+                "cid": 41217953286,
+                "page": 1,
+                "from": "vupload",
+                "part": "理想型：你真的知道自己会喜欢谁吗？",
+                "duration": 456,
+                "vid": "",
+                "weblink": "",
+                "dimension": {
+                  "width": 2160,
+                  "height": 3840,
+                  "rotate": 0
+                }
+              },
+              "bvid": "BV1MXhP6GEoE",
+              "pages": [
+                {
+                  "cid": 41217953286,
+                  "page": 1,
+                  "from": "vupload",
+                  "part": "理想型：你真的知道自己会喜欢谁吗？",
+                  "duration": 456,
+                  "vid": "",
+                  "weblink": "",
+                  "dimension": {
+                    "width": 2160,
+                    "height": 3840,
+                    "rotate": 0
+                  }
+                }
+              ]
+            },
+            {
+              "season_id": 8823404,
+              "section_id": 9836421,
+              "id": 217317652,
+              "aid": 117121291978797,
+              "cid": 41061256956,
+              "title": "见死不救：如果你倒在街头，人越多越危险？",
+              "attribute": 0,
+              "arc": {
+                "aid": 117121291978797,
+                "videos": 0,
+                "type_id": 0,
+                "type_name": "",
+                "copyright": 0,
+                "pic": "http://i2.hdslb.com/bfs/archive/1049000eaf80bdea4bb2e142fe6a4d5eaf63d7fe.jpg",
+                "title": "见死不救：如果你倒在街头，人越多越危险？",
+                "pubdate": 1787130000,
+                "ctime": 1787130000,
+                "desc": "",
+                "state": 0,
+                "duration": 439,
+                "rights": {
+                  "bp": 0,
+                  "elec": 0,
+                  "download": 0,
+                  "movie": 0,
+                  "pay": 0,
+                  "hd5": 0,
+                  "no_reprint": 0,
+                  "autoplay": 0,
+                  "ugc_pay": 0,
+                  "is_cooperation": 0,
+                  "ugc_pay_preview": 0,
+                  "arc_pay": 0,
+                  "free_watch": 0
+                },
+                "author": {
+                  "mid": 1208823126,
+                  "name": "大圆镜科普",
+                  "face": "https://i0.hdslb.com/bfs/face/9c34ee4b8041dd6f2139c52287c8d34a0a42f230.jpg"
+                },
+                "stat": {
+                  "aid": 117121291978797,
+                  "view": 813611,
+                  "danmaku": 1457,
+                  "reply": 1626,
+                  "fav": 13447,
+                  "coin": 4247,
+                  "share": 1030,
+                  "now_rank": 0,
+                  "his_rank": 0,
+                  "like": 82223,
+                  "dislike": 0,
+                  "evaluation": "",
+                  "argue_msg": "",
+                  "vt": 0,
+                  "vv": 813611
+                },
+                "dynamic": "",
+                "dimension": {
+                  "width": 0,
+                  "height": 0,
+                  "rotate": 0
+                },
+                "desc_v2": null,
+                "is_chargeable_season": false,
+                "is_blooper": false,
+                "enable_vt": 0,
+                "vt_display": "",
+                "type_id_v2": 0,
+                "type_name_v2": "",
+                "is_lesson_video": 0
+              },
+              "page": {
+                "cid": 41061256956,
+                "page": 1,
+                "from": "vupload",
+                "part": "见死不救：如果你倒在街头，人越多越危险？",
+                "duration": 439,
+                "vid": "",
+                "weblink": "",
+                "dimension": {
+                  "width": 2160,
+                  "height": 3834,
+                  "rotate": 0
+                }
+              },
+              "bvid": "BV1Qw8E6UEbh",
+              "pages": [
+                {
+                  "cid": 41061256956,
+                  "page": 1,
+                  "from": "vupload",
+                  "part": "见死不救：如果你倒在街头，人越多越危险？",
+                  "duration": 439,
+                  "vid": "",
+                  "weblink": "",
+                  "dimension": {
+                    "width": 2160,
+                    "height": 3834,
+                    "rotate": 0
+                  }
+                }
+              ]
+            },
+            {
+              "season_id": 8823404,
+              "section_id": 9836421,
+              "id": 215807367,
+              "aid": 117076111067602,
+              "cid": 40809139478,
+              "title": "第一印象：毁掉一个人，为什么只需要0.1秒？",
+              "attribute": 0,
+              "arc": {
+                "aid": 117076111067602,
+                "videos": 0,
+                "type_id": 0,
+                "type_name": "",
+                "copyright": 0,
+                "pic": "http://i0.hdslb.com/bfs/archive/c3e62cb8cb1e4924c57c81d6253607f8661b85e4.jpg",
+                "title": "第一印象：毁掉一个人，为什么只需要0.1秒？",
+                "pubdate": 1786440125,
+                "ctime": 1786440125,
+                "desc": "",
+                "state": 0,
+                "duration": 472,
+                "rights": {
+                  "bp": 0,
+                  "elec": 0,
+                  "download": 0,
+                  "movie": 0,
+                  "pay": 0,
+                  "hd5": 0,
+                  "no_reprint": 0,
+                  "autoplay": 0,
+                  "ugc_pay": 0,
+                  "is_cooperation": 0,
+                  "ugc_pay_preview": 0,
+                  "arc_pay": 0,
+                  "free_watch": 0
+                },
+                "author": {
+                  "mid": 1208823126,
+                  "name": "大圆镜科普",
+                  "face": "https://i0.hdslb.com/bfs/face/9c34ee4b8041dd6f2139c52287c8d34a0a42f230.jpg"
+                },
+                "stat": {
+                  "aid": 117076111067602,
+                  "view": 4828230,
+                  "danmaku": 3381,
+                  "reply": 9967,
+                  "fav": 52173,
+                  "coin": 13437,
+                  "share": 8067,
+                  "now_rank": 0,
+                  "his_rank": 10,
+                  "like": 234938,
+                  "dislike": 0,
+                  "evaluation": "",
+                  "argue_msg": "",
+                  "vt": 0,
+                  "vv": 4828230
+                },
+                "dynamic": "",
+                "dimension": {
+                  "width": 0,
+                  "height": 0,
+                  "rotate": 0
+                },
+                "desc_v2": null,
+                "is_chargeable_season": false,
+                "is_blooper": false,
+                "enable_vt": 0,
+                "vt_display": "",
+                "type_id_v2": 0,
+                "type_name_v2": "",
+                "is_lesson_video": 0
+              },
+              "page": {
+                "cid": 40809139478,
+                "page": 1,
+                "from": "vupload",
+                "part": "第一印象：毁掉一个人，为什么只需要0.1秒？",
+                "duration": 472,
+                "vid": "",
+                "weblink": "",
+                "dimension": {
+                  "width": 2160,
+                  "height": 3840,
+                  "rotate": 0
+                }
+              },
+              "bvid": "BV1q7uq6fEZ7",
+              "pages": [
+                {
+                  "cid": 40809139478,
+                  "page": 1,
+                  "from": "vupload",
+                  "part": "第一印象：毁掉一个人，为什么只需要0.1秒？",
+                  "duration": 472,
+                  "vid": "",
+                  "weblink": "",
+                  "dimension": {
+                    "width": 2160,
+                    "height": 3840,
+                    "rotate": 0
+                  }
+                }
+              ]
+            },
+            {
+              "season_id": 8823404,
+              "section_id": 9836421,
+              "id": 215807368,
+              "aid": 117022893540454,
+              "cid": 40515600538,
+              "title": "网络暴民：为什么越是正义的人，下手越狠？",
+              "attribute": 0,
+              "arc": {
+                "aid": 117022893540454,
+                "videos": 0,
+                "type_id": 0,
+                "type_name": "",
+                "copyright": 0,
+                "pic": "http://i2.hdslb.com/bfs/archive/f7b2be74252c5aca570e73f93f71ab30a6627067.jpg",
+                "title": "网络暴民：为什么越是正义的人，下手越狠？",
+                "pubdate": 1785628800,
+                "ctime": 1785628800,
+                "desc": "",
+                "state": 0,
+                "duration": 457,
+                "rights": {
+                  "bp": 0,
+                  "elec": 0,
+                  "download": 0,
+                  "movie": 0,
+                  "pay": 0,
+                  "hd5": 0,
+                  "no_reprint": 0,
+                  "autoplay": 0,
+                  "ugc_pay": 0,
+                  "is_cooperation": 0,
+                  "ugc_pay_preview": 0,
+                  "arc_pay": 0,
+                  "free_watch": 0
+                },
+                "author": {
+                  "mid": 1208823126,
+                  "name": "大圆镜科普",
+                  "face": "https://i0.hdslb.com/bfs/face/9c34ee4b8041dd6f2139c52287c8d34a0a42f230.jpg"
+                },
+                "stat": {
+                  "aid": 117022893540454,
+                  "view": 2135180,
+                  "danmaku": 2563,
+                  "reply": 8681,
+                  "fav": 45162,
+                  "coin": 12983,
+                  "share": 5740,
+                  "now_rank": 0,
+                  "his_rank": 16,
+                  "like": 203264,
+                  "dislike": 0,
+                  "evaluation": "",
+                  "argue_msg": "",
+                  "vt": 0,
+                  "vv": 2135180
+                },
+                "dynamic": "",
+                "dimension": {
+                  "width": 0,
+                  "height": 0,
+                  "rotate": 0
+                },
+                "desc_v2": null,
+                "is_chargeable_season": false,
+                "is_blooper": false,
+                "enable_vt": 0,
+                "vt_display": "",
+                "type_id_v2": 0,
+                "type_name_v2": "",
+                "is_lesson_video": 0
+              },
+              "page": {
+                "cid": 40515600538,
+                "page": 1,
+                "from": "vupload",
+                "part": "乌合之众：一个流传百年的心理学谎言",
+                "duration": 457,
+                "vid": "",
+                "weblink": "",
+                "dimension": {
+                  "width": 2160,
+                  "height": 3840,
+                  "rotate": 0
+                }
+              },
+              "bvid": "BV12A3Q6HEL3",
+              "pages": [
+                {
+                  "cid": 40515600538,
+                  "page": 1,
+                  "from": "vupload",
+                  "part": "乌合之众：一个流传百年的心理学谎言",
+                  "duration": 457,
+                  "vid": "",
+                  "weblink": "",
+                  "dimension": {
+                    "width": 2160,
+                    "height": 3840,
+                    "rotate": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "is_season_display": true,
+    "user_garb": {
+      "url_image_ani_cut": ""
+    },
+    "honor_reply": {
+      "honor": [
+        {
+          "aid": 117472338512456,
+          "type": 7,
+          "desc": "热门收录",
+          "weekly_recommend_num": 0
+        }
+      ]
+    },
+    "like_icon": "",
+    "need_jump_bv": false,
+    "disable_show_up_info": false,
+    "is_story_play": 1,
+    "is_view_self": false
+  }
+}

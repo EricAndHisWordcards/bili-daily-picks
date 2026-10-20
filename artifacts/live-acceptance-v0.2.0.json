@@ -1,0 +1,24 @@
+{
+  "note": "v0.2.0 集成后真机公开模式运行记录（无登录态，Playwright + 开源 Chromium 157）。原始控制台日志已清理，本文件用于复核 README 中的候选/请求/耗时与分区数量。",
+  "recordedAtText": "2026-10-21 02:19 左右（Asia/Shanghai）",
+  "extensionVersion": "0.2.0",
+  "mode": "public",
+  "account": {
+    "loggedIn": false
+  },
+  "candidates": 163,
+  "requests": 84,
+  "durationMs": 58957,
+  "sections": [
+    { "title": "今日必看", "kind": "global", "count": 6 },
+    { "title": "游戏精选", "kind": "region", "count": 2 },
+    { "title": "知识精选", "kind": "region", "count": 3 },
+    { "title": "生活精选", "kind": "region", "count": 2 },
+    { "title": "音乐精选", "kind": "region", "count": 2 },
+    { "title": "增长榜", "kind": "growth", "count": 6 }
+  ],
+  "weeklyReport": null,
+  "weeklyReports": 0,
+  "degraded": "分区排行榜触发风控，已跳过；每周必看触发风控，已跳过",
+  "signalsSkipped": true
+}
