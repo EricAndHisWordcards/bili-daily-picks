@@ -64,6 +64,7 @@ describe('HttpClient', () => {
       minGapMs: 0,
     });
     expect(RELAY_CODES.has(-101)).toBe(true);
+    expect(RELAY_CODES.has(11010)).toBe(true);
     const data = await client.getJson<{ via: string }>('https://api.bilibili.com/history');
     expect(data).toEqual({ via: 'tab' });
     expect(direct).toBe(1);

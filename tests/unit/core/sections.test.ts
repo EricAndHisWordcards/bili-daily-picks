@@ -152,6 +152,18 @@ describe('recommend/sections 分区板块', () => {
     ).toBe(true);
   });
 
+  it('所有候选都低于阈值时放宽一次，避免整页空白', () => {
+    const pool = ['游戏', '生活', '知识'].flatMap((region, regionIndex) => [
+      scored({ bvid: `BVrelax${regionIndex}a`, score: 0.5, region, mid: 2000 + regionIndex * 2 }),
+      scored({ bvid: `BVrelax${regionIndex}b`, score: 0.49, region, mid: 2001 + regionIndex * 2 }),
+    ]);
+    const sections = build(pool);
+    const regionSections = sections.filter((section) => section.kind === 'region');
+    expect(regionSections.length).toBeGreaterThan(0);
+    expect(regionSections.every((section) => section.items.every((item) => item.score < SECTION_MIN_SCORE))).toBe(true);
+    expect(regionSections[0]!.subtitle).toContain('候选较少');
+  });
+
   it('低分视频不会进入分区板块', () => {
     const sections = build(buildPool());
     const regionItems = sections

@@ -100,7 +100,7 @@ export function Sidebar({ page, status, daily, apiMode, tagCount }: SidebarProps
           <IconExternal size={12} />
           打开 bilibili.com
         </a>
-        <span className="sidebar-version">v0.2.2 · 数据仅存本机</span>
+        <span className="sidebar-version">v0.2.3 · 数据仅存本机</span>
       </div>
     </aside>
   );

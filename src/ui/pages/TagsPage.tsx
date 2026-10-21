@@ -10,7 +10,7 @@ import type {
   TagRow,
   UpRow,
 } from '../../shared/types';
-import { formatPercent } from '../../shared/format';
+import { formatPercent, formatRelativeTime } from '../../shared/format';
 import { formatDuration } from '../../shared/time';
 import { Avatar } from '../components/Avatar';
 import { PageIntro } from '../components/PageIntro';
@@ -96,7 +96,7 @@ function RegionBars({ rows }: { rows: AffinityRow[] }) {
 function UpList({ ups }: { ups: UpRow[] }) {
   return (
     <ol className="up-list">
-      {ups.map((up, index) => (
+      {ups.slice(0, 10).map((up, index) => (
         <li className="up-row" key={`${up.mid}-${up.name}`}>
           <span className={`up-rank ${index < 3 ? 'up-rank--top' : ''}`}>{index + 1}</span>
           <Avatar name={up.name} size="xs" />
@@ -122,23 +122,27 @@ function UpRowItem({
   index,
   countText,
   testid,
+  showBar = true,
 }: {
   up: UpRow;
   index: number;
   countText: string;
   testid: string;
+  showBar?: boolean;
 }) {
   return (
-    <li className="up-row" data-testid={testid}>
+    <li className={`up-row${showBar ? '' : ' up-row--no-bar'}`} data-testid={testid}>
       <span className={`up-rank ${index < 3 ? 'up-rank--top' : ''}`}>{index + 1}</span>
       <Avatar name={up.name} size="xs" />
       <span className="up-name" title={up.name}>
         {up.name}
       </span>
       <span className="up-count">{countText}</span>
-      <span className="up-bar" aria-hidden="true">
-        <span style={{ width: `${Math.max(8, up.affinity * 100)}%` }} />
-      </span>
+      {showBar && (
+        <span className="up-bar" aria-hidden="true">
+          <span style={{ width: `${Math.max(8, up.affinity * 100)}%` }} />
+        </span>
+      )}
     </li>
   );
 }
@@ -175,6 +179,7 @@ function SignalStrip({ signals }: { signals: ProfileSignals }) {
 }
 
 function FavoriteFollowPanel({ signals }: { signals: ProfileSignals }) {
+  const now = Date.now();
   return (
     <section className="panel" data-testid="signal-favorites">
       <PanelHead
@@ -183,7 +188,7 @@ function FavoriteFollowPanel({ signals }: { signals: ProfileSignals }) {
       />
       {signals.favoriteFallback && (
         <p className="favorite-fallback" data-testid="favorite-fallback">
-          兼容模式：前 3 个收藏夹
+          兼容模式：扫描全部收藏夹最近收藏
         </p>
       )}
       <div className="signal-columns">
@@ -208,7 +213,7 @@ function FavoriteFollowPanel({ signals }: { signals: ProfileSignals }) {
         </div>
         <div className="signal-column">
           <h4 className="signal-subtitle">
-            <IconUser size={13} /> 关注 UP 主 Top 10
+            <IconUser size={13} /> 最近关注 Top 10
           </h4>
           <ol className="up-list" data-testid="followed-ups">
             {signals.followedUps.slice(0, 10).map((up, index) => (
@@ -216,8 +221,9 @@ function FavoriteFollowPanel({ signals }: { signals: ProfileSignals }) {
                 key={`follow-${up.mid}-${up.name}`}
                 up={up}
                 index={index}
-                countText="已关注"
+                countText={up.followedAt ? formatRelativeTime(up.followedAt, now) : '已关注'}
                 testid="followed-up"
+                showBar={false}
               />
             ))}
           </ol>
@@ -435,7 +441,7 @@ export function TagsPage({ data, onUpdateSettings }: TagsPageProps) {
       <PageIntro
         eyebrow="观看画像"
         title="我的标签"
-        description="基于最近 90 天观看历史生成：越靠中间、字号越大的标签权重越高。所有数据只保存在本机。"
+        description="基于最近 90 天观看历史生成，所有数据只保存在本机。"
       >
         <Segmented
           value={data.settings.tagWindow}
@@ -493,7 +499,7 @@ export function TagsPage({ data, onUpdateSettings }: TagsPageProps) {
       <div className="tags-layout">
         <div className="tags-main">
           <section className="panel">
-            <PanelHead title="标签云" hint={`${profile.tags.length} 个标签 · 字号表示权重，右上角数字是出现次数`} />
+            <PanelHead title="标签云" hint={`${profile.tags.length} 个标签 · 字号越大权重越高，右侧数字是出现次数`} />
             <TagCloud tags={profile.tags} />
           </section>
           <section className="panel summary-panel">

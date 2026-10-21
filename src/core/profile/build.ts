@@ -131,6 +131,24 @@ function normalizeUpRows(
 }
 
 /** 把原始兴趣信号转为画像里展示/查询用的归一化结构 */
+function toOrderedUpRows(
+  rows: Array<{ mid: number; name: string; mtime?: number }>,
+  limit: number,
+): UpRow[] {
+  // 关注列表没有“次数”概念；保留最近关注顺序，不按 mid 重排。
+  return rows.slice(0, limit).map((row) => {
+    const raw = row.mtime ?? 0;
+    const followedAt = raw > 0 ? (raw > 1e12 ? raw : raw * 1000) : undefined;
+    return {
+      mid: row.mid,
+      name: row.name,
+      affinity: 1,
+      count: 1,
+      ...(followedAt !== undefined ? { followedAt } : {}),
+    };
+  });
+}
+
 function toProfileSignals(signals: InterestSignals): ProfileSignals {
   return {
     fetchedAt: signals.fetchedAt,
@@ -152,15 +170,7 @@ function toProfileSignals(signals: InterestSignals): ProfileSignals {
       .map((row) => row.mid)
       .filter((mid) => mid > 0)
       .slice(0, 200),
-    followedUps: normalizeUpRows(
-      signals.followed.map((row) => ({
-        mid: row.mid,
-        name: row.name,
-        weight: 1,
-        count: 1,
-      })),
-      PROFILE_CONFIG.signalUpLimit,
-    ),
+    followedUps: toOrderedUpRows(signals.followed, PROFILE_CONFIG.signalUpLimit),
     watchLaterCount: signals.watchLaterCount,
     watchLaterSampled: signals.watchLaterSampled,
     watchLaterRegions: normalizeRows(

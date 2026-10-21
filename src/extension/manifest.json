@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "B站每日必看",
   "short_name": "每日必看",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "根据你的 B站历史记录、榜单和增长数据，每天推荐必看视频，并统计你的观看标签。",
   "minimum_chrome_version": "120",
   "permissions": ["storage", "alarms"],

@@ -2053,6 +2053,11 @@ code {
   background: var(--surface-2);
 }
 
+/* 关注列表没有“次数”概念，不显示表示权重的横条 */
+.up-row--no-bar {
+  grid-template-columns: 20px 20px minmax(0, 1fr) auto;
+}
+
 .up-rank {
   display: grid;
   place-items: center;

@@ -387,7 +387,7 @@ describe('pipeline v0.2.0 只读信号', () => {
     expect(profile!.signals!.favoriteSampled).toBeGreaterThan(0);
     expect(profile!.signals!.followedMids.length).toBeGreaterThan(0);
     expect(profile!.signals!.watchLaterSampled).toBeGreaterThan(0);
-    expect(await harness.repo.getKv('signals:last')).toBeTruthy();
+    expect(await harness.repo.getKv('signals:last:v4')).toBeTruthy();
 
     const daily = await harness.controller.getDaily();
     expect(daily).not.toBeNull();

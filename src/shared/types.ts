@@ -115,6 +115,8 @@ export interface UpRow {
   name: string;
   affinity: number;
   count: number;
+  /** 关注时间（毫秒）；仅 followedUps 使用 */
+  followedAt?: number;
 }
 
 /** 当前 B站账号状态（只读，不接触 cookie/密码） */
@@ -185,7 +187,7 @@ export interface InterestSignals {
   favoriteUps: Array<{ mid: number; name: string; count: number }>;
   favoriteTags: Array<{ term: string; weight: number; count: number }>;
   followedTotal: number;
-  followed: Array<{ mid: number; name: string; face?: string }>;
+  followed: Array<{ mid: number; name: string; face?: string; mtime?: number }>;
   watchLaterCount: number;
   watchLaterSampled: number;
   watchLaterRegions: Array<{ name: string; weight: number; count: number }>;

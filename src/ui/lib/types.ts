@@ -14,7 +14,7 @@ import type {
 
 /**
  * 离线演示数据的场景开关（?mock=...）。
- * fallback：normal 数据 + 收藏夹走「前 3 个收藏夹」兼容路径（v0.2.0 新增）。
+ * fallback：normal 数据 + 收藏夹走「扫描全部收藏夹最近收藏」兼容路径。
  */
 export type MockVariant =
   | 'normal'

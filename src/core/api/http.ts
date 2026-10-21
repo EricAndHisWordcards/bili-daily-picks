@@ -82,10 +82,10 @@ export class NetworkError extends Error {
 }
 
 /** 这些返回码值得换到 B站页面上下文重试 */
-export const RELAY_CODES = new Set([-101, -352, -412, -403, 412, 429]);
+export const RELAY_CODES = new Set([-101, -352, -412, -403, 412, 429, 11010]);
 
 /** 这些返回码重试也没用（参数/资源问题） */
-export const NON_RETRY_CODES = new Set([-400, -404, -10403]);
+export const NON_RETRY_CODES = new Set([-400, -404, -10403, 11010]);
 
 const defaultSleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 

@@ -5,13 +5,14 @@
  * 「关注/收藏过的 UP」与「稍后再看过的分区」的推荐权重。
  *
  * 实现约定（与实施计划一致）：
- * - 收藏：先取收藏夹列表，选 `fid === 0` 或 media_count 最大的收藏夹作为 mlid，
- *   再用 `type=1`（全部收藏夹）+ `order=mtime` 翻 3 页 × 20，按
+ * - 收藏：先取收藏夹列表，优先用 `fid === 0` 的默认收藏夹作为 mlid（没有默认夹时用
+ *   media_count 最大的），再用 `type=1`（全部收藏夹）+ `order=mtime` 翻 3 页 × 20，按
  *   `fav_time ?? mtime ?? pubtime` 倒序、bvid 去重后取 60 条；
- * - `type=1` 返回 -400 或空列表（且确实有收藏夹）时，回退为「按 media_count 取前 3 个
- *   收藏夹各取第一页」，并标记 favoriteFallback；
+ * - `type=1` 返回 -400/-404/11010 或空列表（且确实有收藏夹）时，回退为扫描所有
+ *   非空收藏夹，按收藏时间取全局最近 60 条（最多 40 个夹、60 次请求），并标记 favoriteFallback；
  * - 关注：2 页 × 50，最多 100 人；稍后再看：1 页 × 20；
- * - 缓存：kv `signals:last`，12 小时内按 mid 复用；
+ * - 缓存：kv `signals:last:v4`，12 小时内按 mid 复用；任一信号失败时不写缓存，
+ *   避免把「0 收藏」这类失败结果缓存 12 小时；
  * - 失败处理：-101（未登录）静默；风控/网络异常时优先用缓存，否则只降级不阻塞主流程。
  */
 import { SIGNAL_CONFIG } from '../../shared/constants';
@@ -32,6 +33,8 @@ import { collectTitleTags } from '../profile/tags';
 /** 只依赖 4 个只读接口，便于测试注入桩 */
 export interface SignalsApiPort {
   favFolders(mid: number): Promise<FavFolderListData>;
+  /** 分页收藏夹列表兜底；测试桩可以不实现 */
+  favFoldersPaged?(mid: number, pn?: number, ps?: number): Promise<FavFolderListData>;
   favResources(
     mediaId: number,
     options?: { pn?: number; ps?: number; order?: string; type?: 0 | 1 },
@@ -46,7 +49,7 @@ export interface SignalsCachePort {
   setKv<T>(key: string, value: T): Promise<void>;
 }
 
-export const SIGNALS_KV_KEY = 'signals:last';
+export const SIGNALS_KV_KEY = 'signals:last:v4';
 
 interface SignalsCacheRow {
   mid: number;
@@ -196,11 +199,11 @@ interface FavoriteResult {
 }
 
 /** 允许触发逐文件夹兼容回退的收藏接口错误码（不含未登录/风控） */
-const FAVORITE_FALLBACK_CODES = new Set([-400, -403, -404]);
+const FAVORITE_FALLBACK_CODES = new Set([-400, -403, -404, 11010]);
 
 function describeSignalsError(error: unknown): string {
   if (error instanceof BiliApiError) {
-    if (error.code === -404) {
+    if (error.code === -404 || error.code === 11010) {
       return '接口提示内容不存在（可能默认收藏夹为空或接口变更）';
     }
     return `code ${error.code}：${error.message}`;
@@ -208,13 +211,57 @@ function describeSignalsError(error: unknown): string {
   return describeError(error);
 }
 
+function filterUsableFolders(list: FavFolderRaw[] | null | undefined): FavFolderRaw[] {
+  return (list ?? []).filter(
+    (folder): folder is FavFolderRaw =>
+      Boolean(folder) && typeof folder.id === 'number' && folder.id > 0,
+  );
+}
+
+/**
+ * 读取收藏夹列表：优先 list-all；它返回空或 11010/-404 时，改用分页列表兜底。
+ * 对含私密收藏夹或 list-all 被限制的账号，分页接口通常更稳。
+ */
+async function loadFavoriteFolders(api: SignalsApiPort, mid: number): Promise<FavFolderRaw[]> {
+  let listAllError: unknown = null;
+  try {
+    const data = await api.favFolders(mid);
+    const folders = filterUsableFolders(data?.list);
+    if (folders.length > 0) return folders;
+  } catch (error) {
+    if (!(error instanceof BiliApiError) || !FAVORITE_FALLBACK_CODES.has(error.code)) throw error;
+    listAllError = error;
+  }
+
+  if (!api.favFoldersPaged) {
+    if (listAllError) throw listAllError;
+    return [];
+  }
+
+  const merged: FavFolderRaw[] = [];
+  const seen = new Set<number>();
+  for (let page = 1; page <= SIGNAL_CONFIG.folderMaxPages; page += 1) {
+    const data = await api.favFoldersPaged(mid, page, SIGNAL_CONFIG.folderPageSize);
+    const pageFolders = filterUsableFolders(data?.list);
+    for (const folder of pageFolders) {
+      if (!seen.has(folder.id)) {
+        seen.add(folder.id);
+        merged.push(folder);
+      }
+    }
+    if (pageFolders.length < SIGNAL_CONFIG.folderPageSize) break;
+  }
+  return merged;
+}
+
 function pickPrimaryFolder(folders: FavFolderRaw[]): FavFolderRaw | undefined {
   const usable = folders.filter(
     (folder): folder is FavFolderRaw =>
       Boolean(folder) && typeof folder.id === 'number' && folder.id > 0,
   );
-  // 默认收藏夹为空时优先挑有内容的收藏夹，避免 type=1 因空 media_id 返回 -404
-  const byFidZero = usable.find((folder) => folder.fid === 0 && (folder.media_count ?? 0) > 0);
+  // type=1 的 media_id 传默认收藏夹 id 最稳妥；默认夹为空时也先用它，
+  // 由 -404/11010/空列表触发逐文件夹回退，避免拿非默认夹 id 反而报 11010。
+  const byFidZero = usable.find((folder) => folder.fid === 0);
   if (byFidZero) return byFidZero;
   return [...usable].sort((a, b) => (b.media_count ?? 0) - (a.media_count ?? 0))[0];
 }
@@ -243,11 +290,7 @@ async function fetchFavoritePages(
 }
 
 async function fetchFavorites(api: SignalsApiPort, mid: number): Promise<FavoriteResult> {
-  const folderData = await api.favFolders(mid);
-  const folders = (folderData?.list ?? []).filter(
-    (folder): folder is FavFolderRaw =>
-      Boolean(folder) && typeof folder.id === 'number' && folder.id > 0,
-  );
+  const folders = await loadFavoriteFolders(api, mid);
   const favoriteFolders = folders.length;
   const favoriteCount = folders.reduce((sum, folder) => sum + Math.max(0, folder.media_count ?? 0), 0);
   if (folders.length === 0) {
@@ -280,11 +323,15 @@ async function fetchFavorites(api: SignalsApiPort, mid: number): Promise<Favorit
   }
 
   if (favoriteFallback) {
-    samples = await fetchFallbackFavorites(api, folders);
+    const fallback = await fetchFallbackFavorites(api, folders);
+    samples = fallback.samples;
     degraded =
       samples.length > 0
-        ? '「全部收藏夹」接口不可用，已回退为逐个收藏夹采样'
+        ? '「全部收藏夹」接口不可用，已回退为扫描所有收藏夹最近收藏'
         : '「全部收藏夹」接口异常，已跳过收藏信号';
+    if (fallback.note) {
+      degraded = `${degraded}；${fallback.note}`;
+    }
   }
 
   const picked = pickFavoriteSamples(samples, SIGNAL_CONFIG.favoriteMaxItems);
@@ -298,30 +345,109 @@ async function fetchFavorites(api: SignalsApiPort, mid: number): Promise<Favorit
   };
 }
 
-/** type=1 不可用：按 media_count 取前 3 个收藏夹各取第一页 */
+interface FolderFetchState {
+  folder: FavFolderRaw;
+  page: number;
+  hasMore: boolean;
+  /** 本夹已取到的最旧一条收藏时间；用于判断是否还值得继续翻页 */
+  oldestTimestamp: number;
+}
+
+interface FallbackFavoritesResult {
+  samples: FavoriteSample[];
+  note?: string;
+}
+
+/**
+ * type=1 不可用：扫描所有非空收藏夹，按收藏时间取全局最近 60 条。
+ *
+ * 先每个收藏夹取第一页，再只对“最旧一条仍可能进入全局前 60”的收藏夹继续翻页，
+ * 避免旧的大收藏夹挤掉新建的小收藏夹，也避免无意义地翻完所有页。
+ * 上限：最多 40 个收藏夹、每夹 3 页、总请求 60 次。
+ */
 async function fetchFallbackFavorites(
   api: SignalsApiPort,
   folders: FavFolderRaw[],
-): Promise<FavoriteSample[]> {
-  const candidates = [...folders]
-    .filter((folder) => (folder.media_count ?? 0) > 0)
-    .sort((a, b) => (b.media_count ?? 0) - (a.media_count ?? 0))
-    .slice(0, SIGNAL_CONFIG.fallbackFolders);
+): Promise<FallbackFavoritesResult> {
+  const nonEmpty = folders.filter((folder) => (folder.media_count ?? 0) > 0);
+  // 新文件夹的 id 通常更大；mtime 可用时优先按最近更新排序。
+  const candidates = [...nonEmpty]
+    .sort((a, b) => (b.mtime ?? 0) - (a.mtime ?? 0) || b.id - a.id)
+    .slice(0, SIGNAL_CONFIG.fallbackMaxFolders);
+
+  const states: FolderFetchState[] = [];
   const pool: FavoriteSample[] = [];
-  for (const folder of candidates) {
+  let requests = 0;
+
+  const fetchPage = async (state: FolderFetchState, page: number): Promise<void> => {
+    if (requests >= SIGNAL_CONFIG.fallbackMaxRequests) return;
+    requests += 1;
     try {
-      const data = await api.favResources(folder.id, {
-        pn: 1,
+      const data = await api.favResources(state.folder.id, {
+        pn: page,
         ps: SIGNAL_CONFIG.favoritePageSize,
         order: 'mtime',
         type: 0,
       });
-      pool.push(...toFavoriteSamples(data?.medias));
+      const medias = data?.medias ?? [];
+      const pageSamples = toFavoriteSamples(medias);
+      pool.push(...pageSamples);
+      state.page = page;
+      state.hasMore =
+        data?.has_more !== false && medias.length >= SIGNAL_CONFIG.favoritePageSize;
+      let oldest = 0;
+      for (const sample of pageSamples) {
+        if (sample.timestamp > 0 && (oldest === 0 || sample.timestamp < oldest)) {
+          oldest = sample.timestamp;
+        }
+      }
+      state.oldestTimestamp = oldest;
     } catch {
-      /* 单个收藏夹失败不影响其它文件夹 */
+      // 单个收藏夹失败不影响其它文件夹
+      state.page = page;
+      state.hasMore = false;
     }
+  };
+
+  // 首轮：所有候选收藏夹各取第一页
+  for (const folder of candidates) {
+    if (requests >= SIGNAL_CONFIG.fallbackMaxRequests) break;
+    const state: FolderFetchState = { folder, page: 0, hasMore: true, oldestTimestamp: 0 };
+    states.push(state);
+    await fetchPage(state, 1);
   }
-  return pool;
+
+  let picked = pickFavoriteSamples(pool, SIGNAL_CONFIG.favoriteMaxItems);
+  // 补页：只有仍可能进入全局前 60 的收藏夹才继续翻页
+  while (requests < SIGNAL_CONFIG.fallbackMaxRequests) {
+    const cutoff =
+      picked.length >= SIGNAL_CONFIG.favoriteMaxItems
+        ? picked[picked.length - 1]!.timestamp
+        : 0;
+    const next = states.filter((state) => {
+      if (!state.hasMore || state.page >= SIGNAL_CONFIG.fallbackPagesPerFolder) return false;
+      if (picked.length < SIGNAL_CONFIG.favoriteMaxItems) return true;
+      return state.oldestTimestamp > 0 && state.oldestTimestamp >= cutoff;
+    });
+    if (next.length === 0) break;
+    for (const state of next) {
+      if (requests >= SIGNAL_CONFIG.fallbackMaxRequests) break;
+      await fetchPage(state, state.page + 1);
+    }
+    picked = pickFavoriteSamples(pool, SIGNAL_CONFIG.favoriteMaxItems);
+  }
+
+  const notes: string[] = [];
+  if (states.length < nonEmpty.length) {
+    notes.push(`仅扫描最近更新的 ${states.length} 个收藏夹`);
+  }
+  if (
+    requests >= SIGNAL_CONFIG.fallbackMaxRequests &&
+    picked.length < SIGNAL_CONFIG.favoriteMaxItems
+  ) {
+    notes.push(`已达到采样请求上限（${picked.length} 条）`);
+  }
+  return { samples: pool, note: notes.length > 0 ? notes.join('；') : undefined };
 }
 
 /* ------------------------------------------------------------------ */
@@ -329,13 +455,13 @@ async function fetchFallbackFavorites(
 /* ------------------------------------------------------------------ */
 
 interface FollowingResult {
-  followed: Array<{ mid: number; name: string; face?: string }>;
+  followed: Array<{ mid: number; name: string; face?: string; mtime?: number }>;
   followedTotal: number;
 }
 
 async function fetchFollowings(api: SignalsApiPort, mid: number): Promise<FollowingResult> {
   const seen = new Set<number>();
-  const followed: Array<{ mid: number; name: string; face?: string }> = [];
+  const followed: Array<{ mid: number; name: string; face?: string; mtime?: number }> = [];
   let total = 0;
   for (let page = 1; page <= SIGNAL_CONFIG.followingPages; page += 1) {
     const data = await api.followings(mid, page, SIGNAL_CONFIG.followingPageSize);
@@ -345,12 +471,19 @@ async function fetchFollowings(api: SignalsApiPort, mid: number): Promise<Follow
       if (!row || typeof row.mid !== 'number' || row.mid <= 0) continue;
       if (seen.has(row.mid)) continue;
       seen.add(row.mid);
-      followed.push({ mid: row.mid, name: row.uname ?? '', face: row.face });
+      followed.push({ mid: row.mid, name: row.uname ?? '', face: row.face, mtime: row.mtime });
       if (followed.length >= SIGNAL_CONFIG.followingMaxItems) break;
     }
     if (followed.length >= SIGNAL_CONFIG.followingMaxItems) break;
     if (list.length < SIGNAL_CONFIG.followingPageSize) break;
   }
+  // 关注列表按最近关注排序；mtime 缺失时保持接口顺序（稳定排序）
+  followed.sort((a, b) => {
+    const am = a.mtime ?? 0;
+    const bm = b.mtime ?? 0;
+    if (am === bm) return 0;
+    return bm - am;
+  });
   return { followed, followedTotal: total > 0 ? total : followed.length };
 }
 
@@ -512,7 +645,10 @@ export async function collectSignals(input: SignalsInput): Promise<SignalsResult
     ...(favorite.favoriteFallback ? { favoriteFallback: true } : {}),
   };
 
-  await writeSignalsCache(repo, mid, signals, nowMs);
+  // 部分信号失败时不写缓存，避免把 0 收藏/0 关注的结果缓存 12 小时
+  if (!favoriteFailed && !followingFailed && !watchLaterFailed) {
+    await writeSignalsCache(repo, mid, signals, nowMs);
+  }
   logger?.('[signals] 已采集', {
     mid,
     favoriteSampled: signals.favoriteSampled,

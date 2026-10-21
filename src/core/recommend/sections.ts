@@ -172,37 +172,45 @@ export function buildSections(input: BuildSectionsInput): Section[] {
     Math.max(2, settings.perSection),
   );
   let regionSectionCount = 0;
-  for (const region of orderRegions(byRegion, profile)) {
-    if (regionSectionCount >= regionLimit) break;
-    const pool = byRegion.get(region) ?? [];
-    // 先排除今日必看已经出现的视频，保证板块内容有增量；
-    // 同 UP 硬约束：每板块每 UP 最多 1 条（由 pickItems 的 perUp 统计本次已选列表）
-    let picks = pickItems(
-      pool.filter((item) => !usedBvids.has(item.candidate.bvid)),
-      sectionSize,
-      { perUp: SECTION_CONFIG.perUpPerSection, minScore: SECTION_MIN_SCORE },
-    );
-    if (picks.length < SECTION_CONFIG.minSectionItems) {
-      // 候选不够时允许与今日必看重复，但同样每 UP 最多 1 条
-      picks = pickItems(pool, sectionSize, {
-        perUp: SECTION_CONFIG.perUpPerSection,
-        minScore: SECTION_MIN_SCORE,
-      });
+  const addRegionSections = (minScore?: number): number => {
+    let added = 0;
+    for (const region of orderRegions(byRegion, profile)) {
+      if (regionSectionCount + added >= regionLimit) break;
+      const pool = byRegion.get(region) ?? [];
+      // 先排除今日必看已经出现的视频，保证板块内容有增量；
+      // 同 UP 硬约束：每板块每 UP 最多 1 条（由 pickItems 的 perUp 统计本次已选列表）
+      const limits = { perUp: SECTION_CONFIG.perUpPerSection, ...(minScore !== undefined ? { minScore } : {}) };
+      let picks = pickItems(
+        pool.filter((item) => !usedBvids.has(item.candidate.bvid)),
+        sectionSize,
+        limits,
+      );
+      if (picks.length < SECTION_CONFIG.minSectionItems) {
+        // 候选不够时允许与今日必看重复，但同样每 UP 最多 1 条
+        picks = pickItems(pool, sectionSize, limits);
+      }
+      if (picks.length < SECTION_CONFIG.minSectionItems) continue;
+      for (const item of picks) usedBvids.add(item.candidate.bvid);
+      const affinity = profile?.regions.find((row) => row.name === region)?.affinity ?? 0;
+      const subtitle =
+        affinity > 0 ? `你的偏好 ${Math.round(affinity * 100)}%` : '本周值得一看';
+      sections.push(
+        sectionOf(picks, {
+          id: `region:${region}`,
+          title: `${region}精选`,
+          subtitle: minScore === undefined ? `${subtitle} · 候选较少` : subtitle,
+          kind: 'region',
+        }, recommendationContext),
+      );
+      added += 1;
     }
-    if (picks.length < SECTION_CONFIG.minSectionItems) continue;
-    for (const item of picks) usedBvids.add(item.candidate.bvid);
-    const affinity = profile?.regions.find((row) => row.name === region)?.affinity ?? 0;
-    const subtitle =
-      affinity > 0 ? `你的偏好 ${Math.round(affinity * 100)}%` : '本周值得一看';
-    sections.push(
-      sectionOf(picks, {
-        id: `region:${region}`,
-        title: `${region}精选`,
-        subtitle,
-        kind: 'region',
-      }, recommendationContext),
-    );
-    regionSectionCount += 1;
+    return added;
+  };
+
+  regionSectionCount = addRegionSections(SECTION_MIN_SCORE);
+  if (regionSectionCount === 0) {
+    // 有候选但全部低于阈值时，降级放宽一次，避免「有 18 条推荐却 0 个分区」
+    regionSectionCount += addRegionSections(undefined);
   }
 
   /* ---------------- 增长榜 ---------------- */

@@ -33,6 +33,8 @@ interface StubConfig {
   favoritePages?: Array<Cell<FavResourceListData>>;
   /** type=0（回退）按调用顺序返回；缺省空页 */
   fallbackPages?: Array<Cell<FavResourceListData>>;
+  /** 按收藏夹 id + 页码返回 type=0 回退页；优先于 fallbackPages */
+  fallbackPagesByFolder?: Record<number, Array<Cell<FavResourceListData>>>;
   followingsPages?: Array<Cell<FollowingsData>>;
   watchLater?: Cell<ToViewData>;
 }
@@ -63,6 +65,10 @@ function makeStubApi(config: StubConfig = {}): { api: SignalsApiPort; calls: Stu
       calls.favorites.push({ mediaId, type, pn });
       if (type === 1) {
         return resolveCell(config.favoritePages?.[pn - 1], { medias: [], has_more: false });
+      }
+      const byFolder = config.fallbackPagesByFolder?.[mediaId];
+      if (byFolder) {
+        return resolveCell(byFolder[pn - 1], { medias: [], has_more: false });
       }
       const index = calls.favorites.filter((call) => call.type === 0).length - 1;
       return resolveCell(config.fallbackPages?.[index], { medias: [], has_more: false });
@@ -109,6 +115,10 @@ function favMedia(seed: FavoriteSeed): FavMediaRaw {
 
 function favoritePage(medias: FavMediaRaw[]): FavResourceListData {
   return { medias, has_more: medias.length >= SIGNAL_CONFIG.favoritePageSize };
+}
+
+function fixedPage(medias: FavMediaRaw[], hasMore = false): FavResourceListData {
+  return { medias, has_more: hasMore };
 }
 
 function folderList(
@@ -270,7 +280,7 @@ describe('sources/signals 收藏', () => {
     expect(typeOne[0]!.mediaId).toBe(22);
   });
 
-  it('type=1 返回 -400 时回退前 3 个收藏夹第一页（favoriteFallback + degraded）', async () => {
+  it('type=1 返回 -400 时回退扫描所有收藏夹（favoriteFallback + degraded）', async () => {
     const fallbackPage = favoritePage([
       favMedia({ bvid: 'BVfallbackA', title: '回退视频 A', upMid: 7001 }),
       favMedia({ bvid: 'BVfallbackB', title: '回退视频 B', upMid: 7002 }),
@@ -291,13 +301,203 @@ describe('sources/signals 收藏', () => {
     expect(result.signals).not.toBeNull();
     expect(result.signals!.favoriteFallback).toBe(true);
     expect(result.degraded).toContain('回退');
-    // 回退只取 media_count 前三的收藏夹、第一页
+    // 回退扫描所有非空收藏夹；无 mtime 时按 id 倒序，首轮各取第 1 页
     const fallbackCalls = calls.favorites.filter((call) => call.type === 0);
-    expect(fallbackCalls.map((call) => call.mediaId)).toEqual([101, 102, 103]);
+    expect(fallbackCalls.map((call) => call.mediaId)).toEqual([104, 103, 102, 101]);
     expect(fallbackCalls.every((call) => call.pn === 1)).toBe(true);
     expect(result.signals!.favoriteSampled).toBeGreaterThan(0);
   });
 
+  it('旧大收藏夹不会挤掉新建的小收藏夹', async () => {
+    const recent = [
+      favMedia({ bvid: 'BVnewSmall1', upMid: 9001, upName: '新夹UP', favTime: NOW_SEC - 60 }),
+      favMedia({ bvid: 'BVnewSmall2', upMid: 9001, upName: '新夹UP', favTime: NOW_SEC - 120 }),
+    ];
+    const oldPage = (id: number, upMid: number) =>
+      favoritePage([
+        favMedia({
+          bvid: `BVold${id}`,
+          upMid,
+          upName: `旧夹${upMid}`,
+          favTime: NOW_SEC - 365 * 86400,
+        }),
+      ]);
+    const { api } = makeStubApi({
+      folders: folderList([
+        { id: 701, fid: 1, mediaCount: 1000 },
+        { id: 702, fid: 2, mediaCount: 900 },
+        { id: 703, fid: 3, mediaCount: 800 },
+        { id: 999, fid: 4, mediaCount: 2 },
+      ]),
+      favoritePages: [new BiliApiError('type=1 不支持', -400, 'fav')],
+      fallbackPagesByFolder: {
+        999: [fixedPage(recent)],
+        701: [oldPage(701, 7001)],
+        702: [oldPage(702, 7002)],
+        703: [oldPage(703, 7003)],
+      },
+      followingsPages: [{ total: 0, list: [] }],
+      watchLater: { count: 0, list: [] },
+    });
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals!.favoriteFolders).toBe(4);
+    expect(result.signals!.favoriteSampled).toBe(5);
+    // 旧算法按 media_count 只取前 3 个夹，会漏掉 id=999 的新夹
+    expect(result.signals!.favoriteUps.some((up) => up.mid === 9001)).toBe(true);
+  });
+
+  it('按收藏时间取全局最近 60 条，而不是按收藏夹大小', async () => {
+    const makePage = (prefix: string, base: number, upMid: number) =>
+      fixedPage(
+        Array.from({ length: 20 }, (_, index) =>
+          favMedia({
+            bvid: `BV${prefix}${index}`,
+            upMid,
+            upName: prefix,
+            favTime: NOW_SEC - base - index * 10,
+          }),
+        ),
+      );
+    const { api } = makeStubApi({
+      folders: folderList([
+        { id: 1101, fid: 1, mediaCount: 1000 },
+        { id: 1102, fid: 2, mediaCount: 800 },
+        { id: 1103, fid: 3, mediaCount: 600 },
+        { id: 1104, fid: 4, mediaCount: 400 },
+      ]),
+      favoritePages: [new BiliApiError('type=1 不支持', -400, 'fav')],
+      fallbackPagesByFolder: {
+        1101: [makePage('a', 1, 9101)],
+        1102: [makePage('b', 300, 9102)],
+        1103: [makePage('c', 600, 9103)],
+        1104: [makePage('d', 900, 9104)],
+      },
+      followingsPages: [{ total: 0, list: [] }],
+      watchLater: { count: 0, list: [] },
+    });
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals!.favoriteSampled).toBe(60);
+    expect(result.signals!.favoriteUps.some((up) => up.mid === 9101)).toBe(true);
+    expect(result.signals!.favoriteUps.some((up) => up.mid === 9102)).toBe(true);
+    expect(result.signals!.favoriteUps.some((up) => up.mid === 9103)).toBe(true);
+    expect(result.signals!.favoriteUps.some((up) => up.mid === 9104)).toBe(false);
+  });
+
+  it('不足 60 条时继续翻页直到没有更多', async () => {
+    const items: FavoriteSeed[] = Array.from({ length: 25 }, (_, index) => ({
+      bvid: `BVpage${index}`,
+      upMid: 9201,
+      upName: '翻页UP',
+      favTime: NOW_SEC - index * 10,
+    }));
+    const { api, calls } = makeStubApi({
+      folders: folderList([{ id: 1201, fid: 0, mediaCount: 25 }]),
+      favoritePages: [new BiliApiError('type=1 不支持', -400, 'fav')],
+      fallbackPagesByFolder: { 1201: pagesOf(items) },
+      followingsPages: [{ total: 0, list: [] }],
+      watchLater: { count: 0, list: [] },
+    });
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals!.favoriteSampled).toBe(25);
+    const fallbackCalls = calls.favorites.filter((call) => call.type === 0);
+    expect(fallbackCalls.map((call) => call.pn)).toEqual([1, 2]);
+  });
+
+  it('已经不可能进入前 60 的旧收藏夹不再翻页', async () => {
+    const makePage = (prefix: string, base: number, upMid: number) =>
+      fixedPage(
+        Array.from({ length: 20 }, (_, index) =>
+          favMedia({
+            bvid: `BV${prefix}${index}`,
+            upMid,
+            upName: prefix,
+            favTime: NOW_SEC - base - index * 10,
+          }),
+        ),
+      );
+    const oldItems = Array.from({ length: 20 }, (_, index) =>
+      favMedia({
+        bvid: `BVoldCut${index}`,
+        upMid: 9404,
+        upName: '旧夹',
+        favTime: NOW_SEC - 365 * 86400 - index * 10,
+      }),
+    );
+    const { api, calls } = makeStubApi({
+      folders: folderList([
+        { id: 1301, fid: 1, mediaCount: 400 },
+        { id: 1302, fid: 2, mediaCount: 300 },
+        { id: 1303, fid: 3, mediaCount: 200 },
+        { id: 1304, fid: 4, mediaCount: 100 },
+      ]),
+      favoritePages: [new BiliApiError('type=1 不支持', -400, 'fav')],
+      fallbackPagesByFolder: {
+        1301: [makePage('a', 1, 9301)],
+        1302: [makePage('b', 300, 9302)],
+        1303: [makePage('c', 600, 9303)],
+        1304: [fixedPage(oldItems, true), fixedPage([])],
+      },
+      followingsPages: [{ total: 0, list: [] }],
+      watchLater: { count: 0, list: [] },
+    });
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals!.favoriteSampled).toBe(60);
+    // 1304 的第一页已经全部早于第 60 名，不应再请求第 2 页
+    const extraPages = calls.favorites.filter((call) => call.type === 0 && call.pn > 1);
+    expect(extraPages).toHaveLength(0);
+  });
+
+  it('收藏夹很多时按上限只扫描前 40 个', async () => {
+    const folders = Array.from({ length: 50 }, (_, index) => ({
+      id: 2000 + index,
+      fid: index + 1,
+      mediaCount: 1,
+    }));
+    const pages: Record<number, FavResourceListData[]> = {};
+    for (const folder of folders) {
+      pages[folder.id] = [
+        fixedPage([
+          favMedia({
+            bvid: `BVcap${folder.id}`,
+            upMid: folder.id,
+            upName: `夹${folder.id}`,
+            favTime: NOW_SEC - folder.id,
+          }),
+        ]),
+      ];
+    }
+    const { api, calls } = makeStubApi({
+      folders: folderList(folders),
+      favoritePages: [new BiliApiError('type=1 不支持', -400, 'fav')],
+      fallbackPagesByFolder: pages,
+      followingsPages: [{ total: 0, list: [] }],
+      watchLater: { count: 0, list: [] },
+    });
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals!.favoriteFolders).toBe(50);
+    expect(result.signals!.favoriteSampled).toBe(40);
+    expect(calls.favorites.filter((call) => call.type === 0)).toHaveLength(40);
+    expect(result.degraded).toContain('仅扫描');
+  });
+
+  it('单个收藏夹失败不影响其它收藏夹', async () => {
+    const { api } = makeStubApi({
+      folders: folderList([
+        { id: 1401, fid: 1, mediaCount: 5 },
+        { id: 1402, fid: 2, mediaCount: 1 },
+      ]),
+      favoritePages: [new BiliApiError('type=1 不支持', -400, 'fav')],
+      fallbackPagesByFolder: {
+        1401: [new Error('这个夹失败')],
+        1402: [fixedPage([favMedia({ bvid: 'BVgoodFolder', upMid: 9502 })])],
+      },
+      followingsPages: [{ total: 0, list: [] }],
+      watchLater: { count: 0, list: [] },
+    });
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals!.favoriteSampled).toBe(1);
+    expect(result.signals!.favoriteUps.some((up) => up.mid === 9502)).toBe(true);
+  });
   it('type=1 返回 -404（内容不存在）时也回退逐文件夹', async () => {
     const { api, calls } = makeStubApi({
       folders: folderList([
@@ -317,19 +517,74 @@ describe('sources/signals 收藏', () => {
     expect(calls.favorites.some((call) => call.type === 0)).toBe(true);
   });
 
-  it('默认收藏夹为空时跳过它，选择有内容的收藏夹', async () => {
+  it('type=1 返回 11010（内容不存在）时回退逐文件夹', async () => {
+    const { api, calls } = makeStubApi({
+      folders: folderList([
+        { id: 601, fid: 0, mediaCount: 3 },
+        { id: 602, fid: 2, mediaCount: 2 },
+      ]),
+      favoritePages: [new BiliApiError('您访问的内容不存在', 11010, 'fav')],
+      fallbackPages: [favoritePage([favMedia({ bvid: 'BV11010Fallback' })])],
+      followingsPages: [{ total: 0, list: [] }],
+      watchLater: { count: 0, list: [] },
+    });
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals).not.toBeNull();
+    expect(result.signals!.favoriteFallback).toBe(true);
+    expect(result.signals!.favoriteSampled).toBe(1);
+    expect(result.degraded).toContain('回退');
+    expect(calls.favorites.some((call) => call.type === 0)).toBe(true);
+  });
+
+  it('收藏夹列表返回 11010 时用分页列表兜底', async () => {
+    const { api } = makeStubApi({
+      folders: new BiliApiError('您访问的内容不存在', 11010, 'fav'),
+      favoritePages: [favoritePage([favMedia({ bvid: 'BVpagedList' })])],
+      followingsPages: [{ total: 0, list: [] }],
+      watchLater: { count: 0, list: [] },
+    });
+    (api as SignalsApiPort & {
+      favFoldersPaged: NonNullable<SignalsApiPort['favFoldersPaged']>;
+    }).favFoldersPaged = async () => folderList([{ id: 701, fid: 0, mediaCount: 10 }]);
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals).not.toBeNull();
+    expect(result.signals!.favoriteFolders).toBe(1);
+    expect(result.signals!.favoriteCount).toBe(10);
+    expect(result.signals!.favoriteSampled).toBe(1);
+    expect(result.degraded).toBeUndefined();
+  });
+
+  it('收藏夹列表为空时也用分页列表兜底', async () => {
+    const { api } = makeStubApi({
+      folders: { count: 0, list: [] },
+      favoritePages: [favoritePage([favMedia({ bvid: 'BVpagedEmptyList' })])],
+      followingsPages: [{ total: 0, list: [] }],
+      watchLater: { count: 0, list: [] },
+    });
+    (api as SignalsApiPort & {
+      favFoldersPaged: NonNullable<SignalsApiPort['favFoldersPaged']>;
+    }).favFoldersPaged = async () => folderList([{ id: 702, fid: 0, mediaCount: 8 }]);
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals!.favoriteFolders).toBe(1);
+    expect(result.signals!.favoriteCount).toBe(8);
+    expect(result.signals!.favoriteSampled).toBe(1);
+  });
+
+  it('默认收藏夹为空时 type=1 仍用默认夹 id，11010 后回退逐文件夹', async () => {
     const { api, calls } = makeStubApi({
       folders: folderList([
         { id: 401, fid: 0, mediaCount: 0 },
         { id: 402, fid: 2, mediaCount: 9 },
       ]),
-      favoritePages: [favoritePage([favMedia({ bvid: 'BVnonEmptyFolder' })])],
+      favoritePages: [new BiliApiError('您访问的内容不存在', 11010, 'fav')],
+      fallbackPages: [favoritePage([favMedia({ bvid: 'BVnonEmptyFolder' })])],
       followingsPages: [{ total: 0, list: [] }],
       watchLater: { count: 0, list: [] },
     });
     const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
     const typeOne = calls.favorites.filter((call) => call.type === 1);
-    expect(typeOne[0]!.mediaId).toBe(402);
+    expect(typeOne[0]!.mediaId).toBe(401);
+    expect(result.signals!.favoriteFallback).toBe(true);
     expect(result.signals!.favoriteSampled).toBe(1);
     expect(result.signals!.favoriteFolders).toBe(2);
   });
@@ -408,6 +663,26 @@ describe('sources/signals 关注与稍后再看', () => {
     expect(new Set(result.signals!.followed.map((row) => row.mid)).size).toBe(100);
   });
 
+  it('关注列表按最近关注时间倒序', async () => {
+    const { api } = makeStubApi({
+      folders: { count: 0, list: [] },
+      followingsPages: [
+        {
+          total: 3,
+          list: [
+            { mid: 1, uname: 'A', mtime: 100 },
+            { mid: 2, uname: 'B', mtime: 300 },
+            { mid: 3, uname: 'C', mtime: 200 },
+          ],
+        },
+      ],
+      watchLater: { count: 0, list: [] },
+    });
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW });
+    expect(result.signals!.followed.map((row) => row.mid)).toEqual([2, 3, 1]);
+    expect(result.signals!.followed.map((row) => row.mtime)).toEqual([300, 200, 100]);
+  });
+
   it('关注第一页不满 50 时不翻第二页', async () => {
     const { api, calls } = makeStubApi({
       folders: { count: 0, list: [] },
@@ -482,6 +757,19 @@ describe('sources/signals 缓存与失败处理', () => {
     });
     expect(expired.fromCache).toBe(false);
     expect(third.calls.folders).toHaveLength(1);
+  });
+
+  it('收藏失败时不写缓存，下一次仍会重试', async () => {
+    const repo = createMemoryRepository();
+    const { api } = makeStubApi({
+      folders: new BiliApiError('您访问的内容不存在', 11010, 'fav'),
+      followingsPages: [{ total: 1, list: [{ mid: 1, uname: 'a' }] }],
+      watchLater: { count: 0, list: [] },
+    });
+    const result = await collectSignals({ api, mid: 12345, nowMs: NOW, repo });
+    expect(result.signals).not.toBeNull();
+    expect(result.degraded).toContain('收藏夹');
+    expect(await repo.getKv(SIGNALS_KV_KEY)).toBeUndefined();
   });
 
   it('缓存按 mid 隔离', async () => {

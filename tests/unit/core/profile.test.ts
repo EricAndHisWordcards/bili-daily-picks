@@ -300,8 +300,8 @@ describe('profile/build 只读信号合并（v0.2.0）', () => {
     favoriteTags: [{ term: 'favoritekeyword', weight: 4, count: 4 }],
     followedTotal: 2,
     followed: [
-      { mid: 777, name: '关注UP' },
-      { mid: 888, name: '关注UP2' },
+      { mid: 777, name: '关注UP', mtime: 1_700_000_000 },
+      { mid: 888, name: '关注UP2', mtime: 1_600_000_000 },
     ],
     watchLaterCount: 6,
     watchLaterSampled: 3,
@@ -367,6 +367,9 @@ describe('profile/build 只读信号合并（v0.2.0）', () => {
     expect(profile.signals!.favoriteSampled).toBe(40);
     expect(profile.signals!.followedMids).toEqual([777, 888]);
     expect(profile.signals!.followedTotal).toBe(2);
+    expect(profile.signals!.followedUps.find((row) => row.mid === 777)?.followedAt).toBe(
+      1_700_000_000_000,
+    );
     expect(profile.signals!.favoriteUps[0]).toMatchObject({ mid: 555, count: 4 });
     expect(profile.signals!.favoriteUps[0]!.affinity).toBe(1);
     expect(profile.signals!.favoriteTags.some((row) => row.term === 'favoritekeyword')).toBe(true);

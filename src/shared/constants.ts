@@ -156,8 +156,13 @@ export const SIGNAL_CONFIG = {
   favoritePages: 3,
   favoritePageSize: 20,
   favoriteMaxItems: 60,
-  /** type=1 不可用时，逐文件夹回退的最大文件夹数 */
-  fallbackFolders: 3,
+  /** type=1 不可用时，最多扫描的收藏夹数 / 每夹最多页数 / 总请求上限 */
+  fallbackMaxFolders: 40,
+  fallbackPagesPerFolder: 3,
+  fallbackMaxRequests: 60,
+  /** 收藏夹列表兜底：分页接口每页数量与最多页数 */
+  folderPageSize: 20,
+  folderMaxPages: 5,
   /** 关注：最多 2 页 × 50 */
   followingPages: 2,
   followingPageSize: 50,

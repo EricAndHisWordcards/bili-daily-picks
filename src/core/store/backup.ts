@@ -361,11 +361,13 @@ function sanitizeUpRows(raw: unknown): { rows: UpRow[]; dropped: number } {
       dropped += 1;
       continue;
     }
+    const followedAt = positive(item.followedAt);
     rows.push({
       mid: positive(item.mid),
       name: str(item.name),
       affinity: clamp01(item.affinity),
       count: nonNegative(item.count),
+      ...(followedAt > 0 ? { followedAt } : {}),
     });
   }
   return { rows, dropped };

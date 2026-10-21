@@ -169,6 +169,7 @@ export interface FavFolderRaw {
   title?: string;
   fav_state?: number;
   media_count?: number;
+  mtime?: number;
 }
 
 export interface FavFolderListData {
@@ -234,6 +235,8 @@ export const BILI_PATHS = {
   view: '/x/web-interface/view',
   tags: '/x/tag/archive/tags',
   favFolders: '/x/v3/fav/folder/created/list-all',
+  /** list-all 不可用时的分页收藏夹列表兜底 */
+  favFoldersPaged: '/x/v3/fav/folder/created/list',
   favResources: '/x/v3/fav/resource/list',
   followings: '/x/relation/followings',
   watchLater: '/x/v2/history/toview',
@@ -388,6 +391,13 @@ export class BiliApi {
   async favFolders(mid: number): Promise<FavFolderListData> {
     return this.http.getJson<FavFolderListData>(
       `${this.origin}${urlWith(BILI_PATHS.favFolders, { up_mid: mid })}`,
+    );
+  }
+
+  /** 收藏夹列表分页兜底（list-all 为空或提示内容不存在时使用） */
+  async favFoldersPaged(mid: number, pn = 1, ps = 20): Promise<FavFolderListData> {
+    return this.http.getJson<FavFolderListData>(
+      `${this.origin}${urlWith(BILI_PATHS.favFoldersPaged, { up_mid: mid, pn, ps })}`,
     );
   }
 

@@ -29,6 +29,22 @@ export function formatDateTime(tsMs: number): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
+/** 相对时间：刚刚 / N 小时前 / N 天前 / N 周前 / N 月前 / N 年前 */
+export function formatRelativeTime(tsMs: number, nowMs = Date.now()): string {
+  if (!Number.isFinite(tsMs) || tsMs <= 0) return '';
+  const diff = Math.max(0, nowMs - tsMs);
+  const minutes = Math.floor(diff / 60_000);
+  if (minutes < 1) return '刚刚';
+  if (minutes < 60) return `${minutes} 分钟前`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} 小时前`;
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days} 天前`;
+  if (days < 30) return `${Math.floor(days / 7)} 周前`;
+  if (days < 365) return `${Math.floor(days / 30)} 月前`;
+  return `${Math.floor(days / 365)} 年前`;
+}
+
 /** 截断长标题，保留完整标题在 title 属性里 */
 export function truncate(text: string, max = 56): string {
   if (text.length <= max) return text;
