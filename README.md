@@ -89,7 +89,7 @@ npm run build
 
 截图见 [`artifacts/screenshots/`](artifacts/screenshots)：
 
-![今日必看（公开模式真实数据）](artifacts/screenshots/live-today-1440x900.png)
+![今日必看（mock 数据）](artifacts/screenshots/dashboard-1440x900.png)
 
 ![周报页（mock 数据）](artifacts/screenshots/dashboard-weekly-1440x900.png)
 

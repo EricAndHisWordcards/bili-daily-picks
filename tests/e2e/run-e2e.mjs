@@ -42,6 +42,7 @@ import { chromium } from 'playwright-core';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..', '..');
+const APP_VERSION = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).version;
 const DIST = join(ROOT, 'dist');
 const ARTIFACTS = join(ROOT, 'artifacts');
 const SCREENSHOTS = join(ARTIFACTS, 'screenshots');
@@ -262,6 +263,7 @@ async function launchPersistentContext(profileDir, options) {
   const context = await chromium.launchPersistentContext(profileDir, {
     ...(CHROME_PATH ? { executablePath: CHROME_PATH } : {}),
     headless: HEADLESS,
+    acceptDownloads: true,
     viewport: { width, height },
     locale: 'zh-CN',
     ignoreHTTPSErrors: true,
@@ -649,7 +651,7 @@ async function stageDashboardMock(origin) {
       const file = JSON.parse(text);
       assert(file.app === 'bili-daily-picks', `app=${file.app}`);
       assert(file.schemaVersion === 1, `schemaVersion=${file.schemaVersion}`);
-      assert(file.appVersion === '0.2.0', `appVersion=${file.appVersion}，期望 0.2.0`);
+      assert(file.appVersion === APP_VERSION, `appVersion=${file.appVersion}，期望 ${APP_VERSION}`);
       assert(typeof file.exportedAt === 'number' && file.exportedAt > 0, 'exportedAt 不合法');
       assert(file.data && typeof file.data === 'object', '缺少 data');
       for (const key of ['history', 'snapshots', 'daily', 'dismissed', 'weeklyReports']) {

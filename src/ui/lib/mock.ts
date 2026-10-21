@@ -934,6 +934,8 @@ function buildProfileSignals(state: MockState): ProfileSignals {
       name: row.name,
       count: 1,
       affinity: round2(Math.max(0.1, 0.9 - index * 0.06)),
+      followedAt:
+        state.generatedAt - (index < 3 ? (index + 1) * 2 : (index + 1) * 7) * DAY_MS,
     }));
   const favoriteTags: TagRow[] = tags.slice(0, 8).map((tag, index) => ({
     ...tag,
