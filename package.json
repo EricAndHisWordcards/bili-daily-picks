@@ -1,6 +1,6 @@
 {
   "name": "bili-daily-picks",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "private": true,
   "type": "module",
   "description": "B站每日必看：基于历史记录、榜单与增长数据的每日视频推荐扩展",

@@ -140,7 +140,7 @@ export default function App() {
               )}
 
               <footer className="site-footer">
-                <span>B站每日必看 · v0.2.3</span>
+                <span>B站每日必看 · v0.2.4</span>
                 <span aria-hidden="true">·</span>
                 <span>数据只保存在本机</span>
                 <span aria-hidden="true">·</span>

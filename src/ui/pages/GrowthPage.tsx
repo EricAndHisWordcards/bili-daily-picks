@@ -22,22 +22,25 @@ export function GrowthPage({ data, onDismiss, onRunNow }: GrowthPageProps) {
   const measured = sortByGrowth(allItems.filter((item) => item.growth && !item.growth.estimated));
   const estimated = sortByGrowth(allItems.filter((item) => item.growth?.estimated));
 
-  const sections: Section[] = [
-    {
+  const sections: Section[] = [];
+  if (measured.length > 0) {
+    sections.push({
       id: 'growth-measured',
       title: '实测增长 · 24 小时',
       subtitle: '两次本地快照间隔 ≥12 小时，直接测到的播放/收藏/评论增量',
       kind: 'growth',
       items: measured,
-    },
-    {
+    });
+  }
+  if (estimated.length > 0) {
+    sections.push({
       id: 'growth-estimated',
       title: '估算增长 · 发布以来日均',
       subtitle: '快照还不够两次时的估算口径，仅供参考',
       kind: 'growth',
       items: estimated,
-    },
-  ];
+    });
+  }
 
   return (
     <div className="page" data-testid="growth">

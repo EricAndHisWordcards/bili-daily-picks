@@ -442,7 +442,7 @@ export function SettingsPage({
           <dl className="info-list">
             <div>
               <dt>版本</dt>
-              <dd>v0.2.3</dd>
+              <dd>v0.2.4</dd>
             </div>
             <div>
               <dt>运行模式</dt>

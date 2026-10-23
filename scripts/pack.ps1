@@ -1,6 +1,6 @@
 # B站每日必看 · 构建产物的 zip 打包脚本
 param(
-  [string]$Version = "0.2.3"
+  [string]$Version = "0.2.4"
 )
 
 $root = Split-Path $PSScriptRoot -Parent
